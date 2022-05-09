@@ -3,6 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+struct Direction
+{
+    public float forward;
+    public float backward;
+    public float right;
+    public float left;
+} 
+
 public class Player : MonoBehaviour
 {
     
@@ -16,6 +25,8 @@ public class Player : MonoBehaviour
     public float _jumpBufferingTimeCounter;
     [HideInInspector]
     public float _cayoteTimeCounter;
+
+    private Direction _inputDirection;
 
 
     private APlayerState _currentState;
@@ -61,12 +72,12 @@ public class Player : MonoBehaviour
         _cayoteTimeCounter = 0;
         _jumpBufferingTimeCounter = 0;
         _raycastHitted = false;
+        _inputDirection = new Direction();
         ChangeState(new GroundedState(this));
     }
     void Update()
     {
         CayoteTimeCheck();
-        getMovementInputs();
         FaceMousePosition();
         LaunchRaycast();
 
@@ -105,12 +116,18 @@ public class Player : MonoBehaviour
     }
 
     public void MoveForward(float value) {
+        _inputDirection.forward = value;
     }
     public void MoveBackward(float value) {
+        _inputDirection.backward = value;
     }
     public void MoveLeft(float value) {
+        _inputDirection.left = value;
+
     }
     public void MoveRight(float value) {
+        _inputDirection.right = value;
+    
     }
 
     public void Shoot(){
@@ -158,19 +175,25 @@ public class Player : MonoBehaviour
 
 
     // MOVEMENT OF PLAYER
-    private void getMovementInputs()
+
+    private void NormalizeDirectionInput()
     {
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
-        var inputUnitDir = new Vector3(x, 0, z);
+        float forward = _inputDirection.forward;
+        float backward = _inputDirection.backward;
+        float right = _inputDirection.right;
+        float left = _inputDirection.left;
 
-        if (inputUnitDir.magnitude > 1.0f)
-            inputUnitDir.Normalize();
+        Vector3 direction = new Vector3(right + left, 0, forward + backward);
 
-        _unitGoalDir = inputUnitDir;
+        if (direction.magnitude > 1.0f)
+            direction.Normalize();
+
+        _unitGoalDir = direction;
     }
 
     private void MovePlayer() {
+        NormalizeDirectionInput();
+
         Vector3 unitVel = _goalVelocity.normalized;
 
         float accelerationXYAxisValue = Vector3.Dot(_unitGoalDir, unitVel);

@@ -1206,6 +1206,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1010999821}
+  - component: {fileID: 1010999822}
   m_Layer: 0
   m_Name: InputManager
   m_TagString: Untagged
@@ -1227,6 +1228,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1010999822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1010999820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96a6778f89d705945b1e9bcd41bd2fd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1016114085
 GameObject:
   m_ObjectHideFlags: 0
@@ -1678,11 +1691,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 505555140108320651, guid: d43d19bb280da3b408ee28e1f4a5ef66, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10.92
+      value: 0.33
       objectReference: {fileID: 0}
     - target: {fileID: 505555140108320651, guid: d43d19bb280da3b408ee28e1f4a5ef66, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 20.47
+      value: 6.03
       objectReference: {fileID: 0}
     - target: {fileID: 505555140108320651, guid: d43d19bb280da3b408ee28e1f4a5ef66, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1724,6 +1737,10 @@ PrefabInstance:
       propertyPath: _cam
       value: 
       objectReference: {fileID: 814983701}
+    - target: {fileID: 505555140108320654, guid: d43d19bb280da3b408ee28e1f4a5ef66, type: 3}
+      propertyPath: inputs
+      value: 
+      objectReference: {fileID: 11400000, guid: 55507cf7cd8af19498ba271af0740708, type: 2}
     - target: {fileID: 505555140108320654, guid: d43d19bb280da3b408ee28e1f4a5ef66, type: 3}
       propertyPath: JumpForce
       value: 5

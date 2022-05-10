@@ -72,6 +72,7 @@ public class InputsManager : MonoBehaviour
 
     public void AddInputToPlayer(Player player, Inputs input){
         _inputsMapEvent[input].changePlayerOwnerShip(player);
+        player.inputs.Add(input);
     }
 
     private float SimulateAnalogInputs(float value, float goal) {

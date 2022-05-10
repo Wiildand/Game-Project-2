@@ -213,6 +213,7 @@ MonoBehaviour:
   _jumpBufferingTimeCounter: 0
   _cayoteTimeCounter: 0
   _cam: {fileID: 0}
+  Id: 0
   AccelerationFactor:
     serializedVersion: 2
     m_Curve:
@@ -247,7 +248,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   MaxSpeed: 8
-  Acceleration: 200
+  Acceleration: 300
   MaxAcceleration: 150
   ForceScale: {x: 1, y: 0, z: 1}
   JumpVelocityCurve:
@@ -292,11 +293,11 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  RideSpringStrenght: 200
-  RideSpringDamper: 10
-  GravityForce: 2.5
+  RideSpringStrenght: 250
+  RideSpringDamper: 40
+  GravityForce: 3
   RideHeight: 1
-  JumpForce: 5
+  JumpForce: 7
   CayoteTime: 1.5
   JumpBufferingTime: 1.5
-  _inputs: {fileID: 0}
+  inputs: {fileID: 0}

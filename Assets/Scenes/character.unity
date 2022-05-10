@@ -1695,11 +1695,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 505555140108320651, guid: d43d19bb280da3b408ee28e1f4a5ef66, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6.03
+      value: 1.62
       objectReference: {fileID: 0}
     - target: {fileID: 505555140108320651, guid: d43d19bb280da3b408ee28e1f4a5ef66, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.88
+      value: -5.44
       objectReference: {fileID: 0}
     - target: {fileID: 505555140108320651, guid: d43d19bb280da3b408ee28e1f4a5ef66, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1742,14 +1742,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 55507cf7cd8af19498ba271af0740708, type: 2}
     - target: {fileID: 505555140108320654, guid: d43d19bb280da3b408ee28e1f4a5ef66, type: 3}
-      propertyPath: JumpForce
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 505555140108320654, guid: d43d19bb280da3b408ee28e1f4a5ef66, type: 3}
-      propertyPath: GravityForce
-      value: 2.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 505555140108320654, guid: d43d19bb280da3b408ee28e1f4a5ef66, type: 3}
       propertyPath: JumpVelocityCurve.m_Curve.Array.size
       value: 4
       objectReference: {fileID: 0}
@@ -1778,10 +1770,6 @@ PrefabInstance:
       value: -0.0043017864
       objectReference: {fileID: 0}
     - target: {fileID: 505555140108320654, guid: d43d19bb280da3b408ee28e1f4a5ef66, type: 3}
-      propertyPath: AccelerationFactor.m_Curve.Array.data[0].value
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 505555140108320654, guid: d43d19bb280da3b408ee28e1f4a5ef66, type: 3}
       propertyPath: JumpVelocityCurve.m_Curve.Array.data[0].inSlope
       value: -0.15227856
       objectReference: {fileID: 0}
@@ -1796,10 +1784,6 @@ PrefabInstance:
     - target: {fileID: 505555140108320654, guid: d43d19bb280da3b408ee28e1f4a5ef66, type: 3}
       propertyPath: JumpVelocityCurve.m_Curve.Array.data[3].inSlope
       value: -0.84274143
-      objectReference: {fileID: 0}
-    - target: {fileID: 505555140108320654, guid: d43d19bb280da3b408ee28e1f4a5ef66, type: 3}
-      propertyPath: AccelerationFactor.m_Curve.Array.data[0].inSlope
-      value: 0.16865402
       objectReference: {fileID: 0}
     - target: {fileID: 505555140108320654, guid: d43d19bb280da3b408ee28e1f4a5ef66, type: 3}
       propertyPath: JumpVelocityCurve.m_Curve.Array.data[0].outSlope
@@ -1826,20 +1810,12 @@ PrefabInstance:
       value: -0.84274143
       objectReference: {fileID: 0}
     - target: {fileID: 505555140108320654, guid: d43d19bb280da3b408ee28e1f4a5ef66, type: 3}
-      propertyPath: AccelerationFactor.m_Curve.Array.data[0].outSlope
-      value: 0.16865402
-      objectReference: {fileID: 0}
-    - target: {fileID: 505555140108320654, guid: d43d19bb280da3b408ee28e1f4a5ef66, type: 3}
       propertyPath: JumpVelocityCurve.m_Curve.Array.data[1].outWeight
       value: 0.14103428
       objectReference: {fileID: 0}
     - target: {fileID: 505555140108320654, guid: d43d19bb280da3b408ee28e1f4a5ef66, type: 3}
       propertyPath: JumpVelocityCurve.m_Curve.Array.data[2].outWeight
       value: 0.13608721
-      objectReference: {fileID: 0}
-    - target: {fileID: 505555140108320654, guid: d43d19bb280da3b408ee28e1f4a5ef66, type: 3}
-      propertyPath: AccelerationFactor.m_Curve.Array.data[0].outWeight
-      value: 0.1678291
       objectReference: {fileID: 0}
     - target: {fileID: 505555140108320654, guid: d43d19bb280da3b408ee28e1f4a5ef66, type: 3}
       propertyPath: JumpVelocityCurve.m_Curve.Array.data[1].tangentMode
@@ -1852,10 +1828,6 @@ PrefabInstance:
     - target: {fileID: 505555140108320654, guid: d43d19bb280da3b408ee28e1f4a5ef66, type: 3}
       propertyPath: JumpVelocityCurve.m_Curve.Array.data[3].tangentMode
       value: 34
-      objectReference: {fileID: 0}
-    - target: {fileID: 505555140108320654, guid: d43d19bb280da3b408ee28e1f4a5ef66, type: 3}
-      propertyPath: AccelerationFactor.m_Curve.Array.data[0].tangentMode
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 505555140108320655, guid: d43d19bb280da3b408ee28e1f4a5ef66, type: 3}
       propertyPath: m_Mass

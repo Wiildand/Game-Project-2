@@ -8,8 +8,6 @@ using UnityEngine.Events;
 public class InputsOwnerShip{
     private Player _player;
     private UnityAction<Player> _action;
-
-
     public KeyCode KEY; 
 
     public InputsOwnerShip(UnityAction<Player> fctToCall, KeyCode key, Player player = null){
@@ -28,11 +26,17 @@ public class InputsOwnerShip{
     }
 }
 
+
+
+
+
 public class InputsManager : MonoBehaviour
 {
     // array of players
-    private Player[] _players;
+    // private Player[] _players;
 
+    [SerializeField]
+    GlobalProvider _globalProvider;
 
     private float forward = 0;
     private float backward = 0;
@@ -44,14 +48,14 @@ public class InputsManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake() {
         // get all players
-        _inputsMapEvent = new Dictionary<Inputs, InputsOwnerShip>()
-        {
-            { Inputs.JUMP, new InputsOwnerShip(this.Jump, KeyCode.D) },
-            { Inputs.MOVE_FORWARD, new InputsOwnerShip(this.MoveForward, KeyCode.I) },
-            { Inputs.MOVE_BACKWARD, new InputsOwnerShip(this.MoveBackward, KeyCode.W) },
-            { Inputs.MOVE_LEFT, new InputsOwnerShip(this.MoveLeft, KeyCode.A) },
-            { Inputs.MOVE_RIGHT, new InputsOwnerShip(this.MoveRight, KeyCode.L) },
-            { Inputs.INTERACT, new InputsOwnerShip(this.Interacte, KeyCode.E) },
+        // _inputsMapEvent = new Dictionary<Inputs, InputsOwnerShip>()
+        // {
+            // { Inputs.JUMP, new InputsOwnerShip(this.Jump, KeyCode.D) },
+            // { Inputs.MOVE_FORWARD, new InputsOwnerShip(this.MoveForward, KeyCode.I) },
+            // { Inputs.MOVE_BACKWARD, new InputsOwnerShip(this.MoveBackward, KeyCode.W) },
+            // { Inputs.MOVE_LEFT, new InputsOwnerShip(this.MoveLeft, KeyCode.A) },
+            // { Inputs.MOVE_RIGHT, new InputsOwnerShip(this.MoveRight, KeyCode.L) },
+            // { Inputs.INTERACT, new InputsOwnerShip(this.Interacte, KeyCode.E) },
             // { Inputs.DIVIDE, new InputsOwnerShip() },
             // { Inputs.SWAP, new InputsOwnerShip() },
             // { Inputs.SHOOT, new InputsOwnerShip() },
@@ -59,15 +63,15 @@ public class InputsManager : MonoBehaviour
 
             // { Inputs.RESUME, new InputsOwnerShip() },
             // { Inputs.RETRY, new InputsOwnerShip() },
-        };
+        // };
 
-        var players = FindObjectsOfType<Player>();
+        // var players = FindObjectsOfType<Player>();
 
-        foreach (Player player in players) {
-            foreach (Inputs input in player.inputs.currents) {  
-                _inputsMapEvent[input].changePlayerOwnerShip(player);
-            }
-        }
+        // foreach (Player player in players) {
+        //     foreach (Inputs input in player.inputs.currents) {  
+        //         _inputsMapEvent[input].changePlayerOwnerShip(player);
+        //     }
+        // }
     }
 
     public void AddInputToPlayer(Player player, Inputs input){

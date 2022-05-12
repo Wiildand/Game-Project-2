@@ -89,7 +89,6 @@ public class Player : MonoBehaviour
         _currentState.PhysicsUpdate();
     }
 
-
     private void OnTriggerEnter(Collider other) {
         if (other.CompareTag("Interactable")) {
             _interactable = other.GetComponent<Interactable>();
@@ -105,13 +104,18 @@ public class Player : MonoBehaviour
 
     // ALL INPUTS ARE HERE
 
-    public void Interacte() {
+    public void InteractStart() {
         if (_interactable != null) {
-            _interactable.Interact();
+            _interactable.InteractStart();
+        }
+    }
+    public void InteractEnd() {
+        if (_interactable != null) {
+            _interactable.InteractEnd();
         }
     }
 
-    public void PressJump() {
+    public void Jump() {
         _jumpBufferingTimeCounter = JumpBufferingTime;
     }
 
@@ -183,7 +187,7 @@ public class Player : MonoBehaviour
         float right = _inputDirection.right;
         float left = _inputDirection.left;
 
-        Vector3 direction = new Vector3(right + left, 0, forward + backward);
+        Vector3 direction = new Vector3(right - left, 0, forward - backward);
 
         if (direction.magnitude > 1.0f)
             direction.Normalize();
@@ -221,10 +225,10 @@ public class Player : MonoBehaviour
 
     private void FaceMousePosition()
     {
-        Vector3 point = _cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 1));
-        float t = _cam.transform.position.y / (_cam.transform.position.y - point.y);
-        Vector3 finalPoint = new Vector3(t * (point.x - _cam.transform.position.x) + _cam.transform.position.x, 1, t * (point.z - _cam.transform.position.z) + _cam.transform.position.z);
-        transform.rotation = Quaternion.Euler(0, Mathf.Atan2(finalPoint.x - transform.position.x, finalPoint.z - transform.position.z) * Mathf.Rad2Deg, 0);
+        // Vector3 point = _cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 1));
+        // float t = _cam.transform.position.y / (_cam.transform.position.y - point.y);
+        // Vector3 finalPoint = new Vector3(t * (point.x - _cam.transform.position.x) + _cam.transform.position.x, 1, t * (point.z - _cam.transform.position.z) + _cam.transform.position.z);
+        // transform.rotation = Quaternion.Euler(0, Mathf.Atan2(finalPoint.x - transform.position.x, finalPoint.z - transform.position.z) * Mathf.Rad2Deg, 0);
     }
 
 }

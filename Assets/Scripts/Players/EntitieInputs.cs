@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 
-[CreateAssetMenu(fileName = "Inputs", menuName = "ScriptableObjects/Entities", order = 1)]
+[CreateAssetMenu(fileName = "Inputs", menuName = "Player/Inputs", order = 1)]
 public class EntitieInputs : ScriptableObject
 {
 

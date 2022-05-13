@@ -3,35 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.InputSystem.InputAction;
 
-
-public class InputsOwnerShip{
-    private Player _player;
-    private Action<CallbackContext> _action;
-
-    public InputsOwnerShip(Player player = null){
-        _player = player;
-    }
-
-    public void changePlayerOwnerShip(Action<CallbackContext> action, Player player = null){
-        _player = player;
-        _action = action;
-    }
-
-    public void changePlayerOwnerShip(Player player){
-        _player = player;
-    }
-
-
-    public void MiddlewareEvent(CallbackContext context){
-        if (_player != null)
-            _action(context);
-    }
-}
 public class PlayerManager : MonoBehaviour
 {
     // Start is called before the first frame update
 
     private List<Player> _players;
+    private Camera _cam;
+
     private Dictionary <Inputs, Player> _inputsPlayerMap;
 
 
@@ -41,6 +19,8 @@ public class PlayerManager : MonoBehaviour
     void Start()
     {
         var players = FindObjectsOfType<Player>();
+        _cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+
 
         _players = new List<Player>(players);
         _inputsPlayerMap = new Dictionary<Inputs, Player>() {
@@ -72,6 +52,8 @@ public class PlayerManager : MonoBehaviour
         _globalProvider.SubscribeInputOnPerformed(Inputs.JUMP, OnJump);
         _globalProvider.SubscribeInputOnPerformed(Inputs.SHOOT, OnShoot);
 
+        _globalProvider.mouse.performed += onMouseMove;
+
     }
 
     private float SimulateAnalogInputs(float value, float goal) {
@@ -86,8 +68,11 @@ public class PlayerManager : MonoBehaviour
         return value;
     }
 
+    public void ChangeInputOwnerShip(Inputs input, Player player){
+        _inputsPlayerMap[input] = player;
+    }
+
     void OnMoveForward(CallbackContext context) {
-        Debug.Log("OnMoveForward");
         var contextValue = context.ReadValue<float>();
         _inputsPlayerMap[Inputs.MOVE_FORWARD]?.MoveForward(contextValue); 
     }
@@ -129,6 +114,16 @@ public class PlayerManager : MonoBehaviour
 
     void OnSwap(CallbackContext context) {
         Debug.Log("Swap");
+    }
+
+    void onMouseMove(CallbackContext context) {
+        var contextValue = context.ReadValue<Vector2>();
+        Vector3 point = _cam.ScreenToWorldPoint(new Vector3(contextValue.x, contextValue.y, 1));
+        float t = _cam.transform.position.y / (_cam.transform.position.y - point.y);
+        Vector3 pointInGame = new Vector3(t * (point.x - _cam.transform.position.x) + _cam.transform.position.x, 1, t * (point.z - _cam.transform.position.z) + _cam.transform.position.z);
+        foreach (Player player in _players) {
+            player.UpdateMousePosition(pointInGame);
+        }
     }
 
 }

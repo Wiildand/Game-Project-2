@@ -34,9 +34,8 @@ public class Player : MonoBehaviour
     private Vector3 _unitGoalDir;
     private  Interactable _interactable;
 
+    private Vector3 _positionToLookAt;
 
-
-    [SerializeField] private Camera _cam;
     [SerializeField] public int Id;
     [Space]
     [Header("Movement")]
@@ -73,12 +72,13 @@ public class Player : MonoBehaviour
         _jumpBufferingTimeCounter = 0;
         _raycastHitted = false;
         _inputDirection = new Direction();
+        _positionToLookAt = Vector3.zero;
+
         ChangeState(new GroundedState(this));
     }
     void Update()
     {
         CayoteTimeCheck();
-        FaceMousePosition();
         LaunchRaycast();
 
         _currentState.CheckForChangeInState();
@@ -131,7 +131,6 @@ public class Player : MonoBehaviour
     }
     public void MoveRight(float value) {
         _inputDirection.right = value;
-    
     }
 
     public void Shoot(){
@@ -212,23 +211,25 @@ public class Player : MonoBehaviour
 
         Vector3 neededAccelerationToReachGoalVelocity = (_goalVelocity - _rb.velocity) / Time.fixedDeltaTime;
 
-
         neededAccelerationToReachGoalVelocity = Vector3.ClampMagnitude(
             neededAccelerationToReachGoalVelocity,
             MaxAcceleration);
 
-        _rb.AddForce(Vector3.Scale(neededAccelerationToReachGoalVelocity * _rb.mass, ForceScale));
+        if (neededAccelerationToReachGoalVelocity.magnitude > 0) {
+            FaceMousePosition();
+            _rb.AddForce(Vector3.Scale(neededAccelerationToReachGoalVelocity * _rb.mass, ForceScale));
+        }
     }
-
 
     // Model Rotation
 
+    public void UpdateMousePosition(Vector3 point) {
+        _positionToLookAt = point;
+        FaceMousePosition();
+    }
     private void FaceMousePosition()
     {
-        // Vector3 point = _cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 1));
-        // float t = _cam.transform.position.y / (_cam.transform.position.y - point.y);
-        // Vector3 finalPoint = new Vector3(t * (point.x - _cam.transform.position.x) + _cam.transform.position.x, 1, t * (point.z - _cam.transform.position.z) + _cam.transform.position.z);
-        // transform.rotation = Quaternion.Euler(0, Mathf.Atan2(finalPoint.x - transform.position.x, finalPoint.z - transform.position.z) * Mathf.Rad2Deg, 0);
+        transform.rotation = Quaternion.Euler(0, Mathf.Atan2(_positionToLookAt.x - transform.position.x, _positionToLookAt.z - transform.position.z) * Mathf.Rad2Deg, 0);
     }
 
 }

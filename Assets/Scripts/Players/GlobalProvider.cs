@@ -5,60 +5,48 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.InputSystem.InputAction;
 
-public class DirectionInputs {
-    public float up;
-    public float down;
-    public float right;
-    public float left;
-
-    public Vector3 GetDirection(){
-        return new Vector3(right - left, 0, up - down);
-    }
-
-}
-
-
-
 public class GlobalProvider : MonoBehaviour
 {
     // Start is called before the first frame update
 
     private GameInputs _inputs;
 
+    public InputAction mouse;
     private Dictionary<Inputs, InputAction> inputsPlayerMapAction;
 
     void Awake()
     {
         _inputs = new GameInputs();       
+
+        // Player
         inputsPlayerMapAction = new Dictionary<Inputs, InputAction>();
-        
+
         _inputs.Player.Forward.Enable();
-        inputsPlayerMapAction.Add(Inputs.MOVE_FORWARD, _inputs.Player.Forward);
-        
         _inputs.Player.Backward.Enable();
-        inputsPlayerMapAction.Add(Inputs.MOVE_BACKWARD, _inputs.Player.Backward);
-        
         _inputs.Player.Left.Enable();
-        inputsPlayerMapAction.Add(Inputs.MOVE_LEFT, _inputs.Player.Left);
-        
         _inputs.Player.Right.Enable();
-        inputsPlayerMapAction.Add(Inputs.MOVE_RIGHT, _inputs.Player.Right);
-        
         _inputs.Player.Interact.Enable();
-        inputsPlayerMapAction.Add(Inputs.INTERACT, _inputs.Player.Interact);
-        
         _inputs.Player.Divide.Enable();
-        inputsPlayerMapAction.Add(Inputs.DIVIDE, _inputs.Player.Divide);
-        
         _inputs.Player.Swap.Enable();
-        inputsPlayerMapAction.Add(Inputs.SWAP, _inputs.Player.Swap);
-        
         _inputs.Player.Jump.Enable();
-        inputsPlayerMapAction.Add(Inputs.JUMP, _inputs.Player.Jump);
-        
         _inputs.Player.Fire.Enable();
+
+        inputsPlayerMapAction.Add(Inputs.MOVE_FORWARD, _inputs.Player.Forward);
+        inputsPlayerMapAction.Add(Inputs.MOVE_BACKWARD, _inputs.Player.Backward);
+        inputsPlayerMapAction.Add(Inputs.MOVE_LEFT, _inputs.Player.Left);
+        inputsPlayerMapAction.Add(Inputs.MOVE_RIGHT, _inputs.Player.Right);
+        inputsPlayerMapAction.Add(Inputs.INTERACT, _inputs.Player.Interact);
+        inputsPlayerMapAction.Add(Inputs.DIVIDE, _inputs.Player.Divide);
+        inputsPlayerMapAction.Add(Inputs.SWAP, _inputs.Player.Swap);
+        inputsPlayerMapAction.Add(Inputs.JUMP, _inputs.Player.Jump);
         inputsPlayerMapAction.Add(Inputs.SHOOT, _inputs.Player.Fire);
-        
+
+        // Other
+        _inputs.Other.Mouse.Enable();
+        mouse = _inputs.Other.Mouse;
+    }
+
+    private void Update() {
     }
 
     public void SubscribeInputOnPerformed(Inputs input, Action<CallbackContext> action){

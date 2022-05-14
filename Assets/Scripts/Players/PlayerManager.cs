@@ -36,7 +36,7 @@ public class PlayerManager : MonoBehaviour
         };
         
         foreach (Player player in _players) {
-            foreach (Inputs input in player.inputs.currents) { 
+            foreach (Inputs input in player.inputs?.currents) { 
                 _inputsPlayerMap[input] = player; 
             }
         }

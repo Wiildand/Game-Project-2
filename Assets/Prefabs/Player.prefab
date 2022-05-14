@@ -212,7 +212,6 @@ MonoBehaviour:
   _raycastHitted: 0
   _jumpBufferingTimeCounter: 0
   _cayoteTimeCounter: 0
-  _cam: {fileID: 0}
   Id: 0
   AccelerationFactor:
     serializedVersion: 2

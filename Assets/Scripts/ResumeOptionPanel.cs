@@ -7,6 +7,7 @@ public class ResumeOptionPanel : MonoBehaviour {
     public GameObject pauseMenuUi;
 
     private void Update() {
+        /// Todo manage with the new input system
         if (Input.GetKeyDown(KeyCode.Escape)) {
             if (GameIsPaused) {
                 Resume();

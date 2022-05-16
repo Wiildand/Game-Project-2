@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 505555140108320654}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -212,7 +212,6 @@ MonoBehaviour:
   _raycastHitted: 0
   _jumpBufferingTimeCounter: 0
   _cayoteTimeCounter: 0
-  _cam: {fileID: 0}
   Id: 0
   AccelerationFactor:
     serializedVersion: 2

@@ -924,7 +924,7 @@ Transform:
   - {fileID: 1260217928}
   - {fileID: 24118045}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!1 &456310498
 GameObject:
@@ -1017,7 +1017,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &647085754
 GameObject:
@@ -1163,9 +1163,9 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
-  far clip plane: 100
-  field of view: 39.45781
+  near clip plane: 0.1
+  far clip plane: 5000
+  field of view: 40
   orthographic: 0
   orthographic size: 14.62
   m_Depth: -1
@@ -1190,13 +1190,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 814983699}
-  m_LocalRotation: {x: 0.50776494, y: 0.0000012712333, z: -0.00000056937824, w: 0.8614956}
-  m_LocalPosition: {x: 0.62, y: 49.82, z: -26.06}
-  m_LocalScale: {x: 4.142635, y: 1, z: 1}
+  m_LocalRotation: {x: 0.271954, y: 0.05035745, z: -0.014252371, w: 0.9608861}
+  m_LocalPosition: {x: -4.703738, y: 30, z: -44.75349}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 61.03, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 60, y: 0, z: 0}
 --- !u!1 &1016114085
 GameObject:
   m_ObjectHideFlags: 0
@@ -1590,7 +1590,7 @@ GameObject:
   - component: {fileID: 1727357561}
   m_Layer: 0
   m_Name: GlobalProvider
-  m_TagString: Untagged
+  m_TagString: GlobalProvider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1622,10 +1622,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mouse:
-    m_Name: 
+    m_Name: Mouse
     m_Type: 0
     m_ExpectedControlType: 
-    m_Id: 
+    m_Id: 68395155-b411-4eea-b002-d44760b8075d
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings: []
@@ -1642,7 +1642,7 @@ GameObject:
   - component: {fileID: 2145917437}
   m_Layer: 0
   m_Name: PlayerManager
-  m_TagString: Untagged
+  m_TagString: PlayerManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

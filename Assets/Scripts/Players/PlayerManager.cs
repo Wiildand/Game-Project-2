@@ -6,10 +6,9 @@ using static UnityEngine.InputSystem.InputAction;
 public class PlayerManager : MonoBehaviour
 {
     // Start is called before the first frame update
-
+    public event Action<Player> OnPlayerInputsChanged;
     private List<Player> _players;
     private Camera _cam;
-
     private Dictionary <Inputs, Player> _inputsPlayerMap;
 
 
@@ -36,7 +35,7 @@ public class PlayerManager : MonoBehaviour
         };
         
         foreach (Player player in _players) {
-            foreach (Inputs input in player.inputs?.currents) { 
+            foreach (Inputs input in player.inputsRuntime) { 
                 _inputsPlayerMap[input] = player; 
             }
         }
@@ -70,6 +69,8 @@ public class PlayerManager : MonoBehaviour
 
     public void ChangeInputOwnerShip(Inputs input, Player player){
         _inputsPlayerMap[input] = player;
+        player.inputsRuntime.Add(input);
+        OnPlayerInputsChanged.Invoke(player);
     }
 
     void OnMoveForward(CallbackContext context) {

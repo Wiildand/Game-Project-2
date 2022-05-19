@@ -11,15 +11,4 @@ public class EntitieInputs : ScriptableObject
     [SerializeField]
     public List<Inputs> currents;
 
-    public void Add(Inputs input)
-    {
-        currents.Add(input);
-    }
-
-    public void Remove(Inputs input)
-    {
-        currents.Remove(input);
-    }
-
-
 }

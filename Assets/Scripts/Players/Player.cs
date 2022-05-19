@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 struct Direction
 {
     public float forward;
@@ -26,6 +25,7 @@ public class Player : MonoBehaviour
     [HideInInspector]
     public float _cayoteTimeCounter;
 
+
     private Direction _inputDirection;
 
 
@@ -37,6 +37,7 @@ public class Player : MonoBehaviour
     private Vector3 _positionToLookAt;
 
     [SerializeField] public int Id;
+    [SerializeField] private Transform PlayerModel;
     [Space]
     [Header("Movement")]
 
@@ -60,11 +61,13 @@ public class Player : MonoBehaviour
 
     [Space]
     [Header("Inputs")]
-    [SerializeField] public EntitieInputs inputs;
+    [SerializeField] public EntitieInputs inputsOnStart;
+    [HideInInspector] public List<Inputs> inputsRuntime;
 
     // Update is called once per frame
 
     public void Start() {
+        inputsRuntime = new List<Inputs>(inputsOnStart.currents);
         _rb = GetComponent<Rigidbody>();
         _goalVelocity = Vector3.zero;
         _unitGoalDir = Vector3.zero;
@@ -173,6 +176,8 @@ public class Player : MonoBehaviour
     private void LaunchRaycast()
     {
         Ray ray  = new Ray(transform.position -  Vector3.up * transform.localScale.y, Vector3.down);
+        // debug raycast
+        Debug.DrawRay(ray.origin, ray.direction * RideHeight, Color.red);
         _raycastHitted = Physics.Raycast(ray, out _rayHit);
     }
 
@@ -229,7 +234,7 @@ public class Player : MonoBehaviour
     }
     private void FaceMousePosition()
     {
-        transform.rotation = Quaternion.Euler(0, Mathf.Atan2(_positionToLookAt.x - transform.position.x, _positionToLookAt.z - transform.position.z) * Mathf.Rad2Deg, 0);
+        PlayerModel.transform.rotation = Quaternion.Euler(0, Mathf.Atan2(_positionToLookAt.x - transform.position.x, _positionToLookAt.z - transform.position.z) * Mathf.Rad2Deg, 0);
     }
 
 }

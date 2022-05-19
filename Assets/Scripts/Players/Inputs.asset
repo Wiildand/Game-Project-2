@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3451fb6b633c804419a8febc946f596b, type: 3}
   m_Name: Inputs
   m_EditorClassIdentifier: 
-  currents: 0100000005000000
+  currents: 02000000010000000300000004000000

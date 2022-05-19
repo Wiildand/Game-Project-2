@@ -2725,9 +2725,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1005244436}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 299bd07ca73d4ad491e0d3bf642dbab2, type: 3}
+  m_Script: {fileID: 11500000, guid: 51f787013fe62f94e8188e7568ca7b13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioMixer: {fileID: 24100000, guid: 3a7c2851bfff7497d968d91d1049d0d7, type: 2}
+  resolutionDropdown: {fileID: 1906085733}
 --- !u!1 &1043305206
 GameObject:
   m_ObjectHideFlags: 0

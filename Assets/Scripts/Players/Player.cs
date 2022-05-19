@@ -109,12 +109,12 @@ public class Player : MonoBehaviour
 
     public void InteractStart() {
         if (_interactable != null) {
-            _interactable.InteractStart();
+            _interactable.InteractStart(this);
         }
     }
     public void InteractEnd() {
         if (_interactable != null) {
-            _interactable.InteractEnd();
+            _interactable.InteractEnd(this);
         }
     }
 

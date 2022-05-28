@@ -9,8 +9,4 @@ public enum Inputs {
     DIVIDE = 7,
     SHOOT = 8,
     SWAP = 9,
-    PAUSE = 10,
-    RESUME = 11,
-    RETRY = 12,
-
 }

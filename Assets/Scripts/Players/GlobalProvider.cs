@@ -12,6 +12,8 @@ public class GlobalProvider : MonoBehaviour
     private GameInputs _inputs;
 
     public InputAction mouse;
+    public InputAction menu;
+    public InputAction retry;
     private Dictionary<Inputs, InputAction> inputsPlayerMapAction;
 
     void Awake()
@@ -44,6 +46,10 @@ public class GlobalProvider : MonoBehaviour
         // Other
         _inputs.Other.Mouse.Enable();
         mouse = _inputs.Other.Mouse;
+
+        _inputs.Other.Retry.Enable();
+        retry = _inputs.Other.Retry;
+
     }
 
     private void Update() {

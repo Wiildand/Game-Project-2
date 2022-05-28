@@ -143,7 +143,7 @@ public class Player : MonoBehaviour
 
     // JUMP  OF PLAYER
     public bool IsGrounded() {
-        return _rayHit.distance <= RideHeight;
+        return _rayHit.distance <= RideHeight && _raycastHitted;
     }
 
     public void ChangeState(APlayerState newState) {
@@ -175,9 +175,8 @@ public class Player : MonoBehaviour
 
     private void LaunchRaycast()
     {
-        Ray ray  = new Ray(transform.position -  Vector3.up * transform.localScale.y, Vector3.down);
+        Ray ray  = new Ray(transform.position +  Vector3.up * transform.localScale.y , Vector3.down);
         // debug raycast
-        Debug.DrawRay(ray.origin, ray.direction * RideHeight, Color.red);
         _raycastHitted = Physics.Raycast(ray, out _rayHit);
     }
 
@@ -232,6 +231,7 @@ public class Player : MonoBehaviour
         _positionToLookAt = point;
         FaceMousePosition();
     }
+
     private void FaceMousePosition()
     {
         PlayerModel.transform.rotation = Quaternion.Euler(0, Mathf.Atan2(_positionToLookAt.x - transform.position.x, _positionToLookAt.z - transform.position.z) * Mathf.Rad2Deg, 0);

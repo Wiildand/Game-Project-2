@@ -14,6 +14,9 @@ public class PlayerManager : MonoBehaviour
 
     [SerializeField]
     private GlobalProvider _globalProvider;
+    
+    [SerializeField]
+    private GameplayManager _gameplayManager;
 
     void Start()
     {
@@ -53,6 +56,20 @@ public class PlayerManager : MonoBehaviour
 
         _globalProvider.mouse.performed += onMouseMove;
 
+    }
+
+    private void RemoveAllInputsOfPlayer(Player player) {
+        foreach (Inputs input in player.inputsRuntime) {
+            _inputsPlayerMap[input] = null;
+        }
+    }
+
+    public void PlayerDie(Player player) {
+        _players.Remove(player);
+        RemoveAllInputsOfPlayer(player);
+        if (_players.Count < 1) {
+            _gameplayManager.Restart();
+        }
     }
 
     private float SimulateAnalogInputs(float value, float goal) {

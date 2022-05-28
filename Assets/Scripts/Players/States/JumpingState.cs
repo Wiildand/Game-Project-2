@@ -11,10 +11,7 @@ public class JumpingState : APlayerState {
     }
 
     public override void CheckForChangeInState() {
-        Debug.Log(player._rb.velocity.y);
-        Debug.Log(!player.IsGrounded());
         if (player._rb.velocity.y < 0.1f && !player.IsGrounded()) {
-
             player.ChangeState(new AfterJumpFall(player));
         }
         _jumpingTimer += Time.deltaTime;

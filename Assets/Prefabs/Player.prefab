@@ -197,9 +197,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  MaxSpeed: 8
-  Acceleration: 300
-  MaxAcceleration: 150
+  MaxSpeed: 10
+  Acceleration: 75
+  MaxAcceleration: 300
   ForceScale: {x: 1, y: 0, z: 1}
   JumpVelocityCurve:
     serializedVersion: 2
@@ -246,7 +246,7 @@ MonoBehaviour:
   RideSpringStrenght: 250
   RideSpringDamper: 40
   GravityForce: 3
-  RideHeight: 1
+  RideHeight: 3
   JumpForce: 7
   CayoteTime: 1.5
   JumpBufferingTime: 1.5
@@ -1065,12 +1065,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3a689682c5ad69428ec66e4c7cc0380, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerManager: {fileID: 0}
   _player: {fileID: 505555140108320654}
   Jump: {fileID: 2145951264811029354}
   Shoot: {fileID: 631389636413137522}
   Interact: {fileID: 1408080703668756928}
-  Swap: {fileID: 0}
   Divide: {fileID: 7271125515990537898}
   MoveForward: {fileID: 6475626841469103646}
   MoveBackward: {fileID: 3058919419031348438}

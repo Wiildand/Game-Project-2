@@ -7,8 +7,7 @@ public class AfterJumpFall : APlayerState {
     }
 
     public override void CheckForChangeInState() {
-
-        if (player.IsGrounded()) {
+        if (player.IsGrounded()) {  
             player.ChangeState(new GroundedState(player));
         }
     }

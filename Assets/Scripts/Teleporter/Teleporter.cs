@@ -29,15 +29,16 @@ public class Teleporter : MonoBehaviour {
 
     private void TeleportToDestination(Collider other, Vector3 destination) {
         // if other have rigidbody then moce it with MovePosition
-        if (other.GetComponent<TeleportableEvent>() != null) {
-            other.GetComponent<TeleportableEvent>().Teleported();
-        }
+        destination += new Vector3(0, other.transform.position.y, 0);
         if (other.attachedRigidbody != null) {
             other.attachedRigidbody.MovePosition(destination);
         } else {
             other.transform.position = destination;
         }
 
+        if (other.GetComponent<TeleportableEvent>() != null) {
+            other.GetComponent<TeleportableEvent>().Teleported();
+        }
     }
 
     private void OnTeleporterStartTriggerEnter(Collider other) {

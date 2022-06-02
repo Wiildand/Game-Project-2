@@ -56,6 +56,8 @@ public class PlatformMovable : MonoBehaviour {
     public void checkIfPlayerHasExitPlatform(Collider other) {
         if (other.gameObject.tag == "Player") {
             hasTouchedThePlatform = false;
+        } else {
+
         }
     }
 
@@ -63,6 +65,8 @@ public class PlatformMovable : MonoBehaviour {
         Player player = other.gameObject.GetComponent<Player>();
         if (player.IsGrounded()) {
             hasTouchedThePlatform = true;
+        } else if (other.attachedRigidbody == null) {
+            other.transform.parent = platformRb.transform;
         }
     }
 
@@ -71,13 +75,23 @@ public class PlatformMovable : MonoBehaviour {
             return;
 
         if (other.gameObject.tag == "Player") {
+            
             if (hasTouchedThePlatform) {
-                other.GetComponent<Rigidbody>().AddForce(platformRb.velocity, ForceMode.VelocityChange);
+                other.attachedRigidbody.AddForce(platformRb.velocity, ForceMode.VelocityChange);
             } else {
                 checkForPlayerOnPlatform(other);
             }
+
         } else {
-            other.GetComponent<Rigidbody>().AddForce(platformRb.velocity * Time.deltaTime , ForceMode.VelocityChange);
+
+            if (other.attachedRigidbody != null) {
+                other.attachedRigidbody.velocity = new Vector3( platformRb.velocity.x,
+                                                                other.attachedRigidbody.velocity.y,
+                                                                platformRb.velocity.z);
+            } else {
+                other.transform.parent = platformRb.transform;
+            }
+
         }
 
     }

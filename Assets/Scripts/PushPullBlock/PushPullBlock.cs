@@ -12,9 +12,8 @@ public class PushPullBlock : MonoBehaviour
     private void Start() {
         _teleportable = GetComponent<TeleportableEvent>();
         _rb = GetComponent<Rigidbody>();
-
+        _rb.sleepThreshold = 0f;
         _teleportable.onTeleported += OnTeleported;
-
     }
 
     private void OnTeleported() {

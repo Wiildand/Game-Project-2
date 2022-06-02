@@ -9,7 +9,7 @@ struct Direction
     public float backward;
     public float right;
     public float left;
-} 
+}
 
 public class Player : MonoBehaviour
 {
@@ -24,17 +24,15 @@ public class Player : MonoBehaviour
     public float _jumpBufferingTimeCounter;
     [HideInInspector]
     public float _cayoteTimeCounter;
-
-
     private Direction _inputDirection;
-
-
     private APlayerState _currentState;
     private Vector3 _goalVelocity;
     private Vector3 _unitGoalDir;
-    private AInteractable _interactable;
-
+    private Collider _interactableCollider;
+    private bool _isInteracting = false;
     private Vector3 _positionToLookAt;
+
+
 
     [SerializeField] public int Id;
     [SerializeField] private Transform PlayerModel;
@@ -86,32 +84,37 @@ public class Player : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other) {
-        if (other.CompareTag("Interactable")) {
-            _interactable = other.GetComponent<AInteractable>();
+        if (other.CompareTag("Interactable") && !_isInteracting) {
+            _interactableCollider = other;
         }
     }
 
     private void OnTriggerExit(Collider other) {
-        StopInteraction();
+        if (_interactableCollider == other) {
+            if (_isInteracting)
+                StopInteraction();
+            _interactableCollider = null;
+        }
     }
 
     public void StopInteraction() {
-        if (_interactable != null) {
-            _interactable.OnInteractionEnd(this);
-            _interactable = null;
+        if (_interactableCollider != null) {
+            _isInteracting = false;
+            _interactableCollider.GetComponent<AInteractable>().OnInteractionEnd(this);
+            _interactableCollider = null;
         }
     }
 
     // ALL INPUTS ARE HERE
-
     public void InteractStart() {
-        if (_interactable != null) {
-            _interactable.OnInteractionStart(this);
+        if (_interactableCollider != null && !_isInteracting) {
+            _isInteracting = true;
+            _interactableCollider.GetComponent<AInteractable>().OnInteractionStart(this);
         }
     }
     public void InteractEnd() {
-        if (_interactable != null) {
-            _interactable.OnInteractionEnd(this);
+        if (_interactableCollider != null) {
+            StopInteraction();
         }
     }
 

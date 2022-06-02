@@ -11,7 +11,7 @@ public class DeathZone : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             Player player = other.gameObject.GetComponent<Player>();
-            playerManager.PlayerDie(player);
+            playerManager.KillPlayer(player);
         }
     }
 }

@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3451fb6b633c804419a8febc946f596b, type: 3}
-  m_Name: Inputs
+  m_Name: allInputs
   m_EditorClassIdentifier: 
-  currents: 02000000010000000300000004000000
+  currents: 0100000002000000030000000400000005000000060000000800000007000000

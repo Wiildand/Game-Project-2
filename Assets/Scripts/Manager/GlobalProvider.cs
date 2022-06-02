@@ -66,5 +66,35 @@ public class GlobalProvider : MonoBehaviour
     public void SubscribeInputOnCanceled(Inputs input, Action<CallbackContext> action){
         inputsPlayerMapAction[input].canceled += action;
     }
+
+    public void UnSubscribeInputOnPerformed(Inputs input, Action<CallbackContext> action){
+        inputsPlayerMapAction[input].performed -= action;
+    }
+
+    public void UnSubscribeInputOnStarted(Inputs input, Action<CallbackContext> action){
+        inputsPlayerMapAction[input].started -= action;
+    }
+
+    public void UnSubscribeInputOnCanceled(Inputs input, Action<CallbackContext> action){
+        inputsPlayerMapAction[input].canceled -= action;
+    }
+
+    void OnDestroy() {
+        _inputs.Player.Forward.Disable();
+        _inputs.Player.Backward.Disable();
+        _inputs.Player.Left.Disable();
+        _inputs.Player.Right.Disable();
+        _inputs.Player.Interact.Disable();
+        _inputs.Player.Divide.Disable();
+        _inputs.Player.Swap.Disable();
+        _inputs.Player.Jump.Disable();
+        _inputs.Player.Fire.Disable();
+
+        _inputs.Other.Mouse.Disable();
+        _inputs.Other.Retry.Disable();
+
+        _inputs.Dispose();
+        _inputs = null;
+    }
     
 }

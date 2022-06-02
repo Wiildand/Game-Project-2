@@ -44,40 +44,27 @@ public class InputsVisibility : MonoBehaviour
             { Inputs.MOVE_LEFT, MoveLeft },
             { Inputs.MOVE_RIGHT, MoveRight }
         };
-        _playerManager = GameObject.FindGameObjectWithTag("PlayerManager").GetComponent<PlayerManager>();
 
-        // go throught player inputs and set the corresponding gameobject visibility
-        changeInputsVisibility(_player.inputsOnStart.currents);
-
-        _playerManager.OnPlayerInputsChanged += OnPlayerInputsChanged;
     }
+    // private void changeInputsVisibility(List<Inputs> playerInput)
+    // {
+    //     // go throught inputsReference and set the corresponding gameobject visibility
+    //     foreach (var input in inputsReference)
+    //     {
+    //         if (playerInput.Contains(input.Key))
+    //         {
+    //             input.Value.SetActive(true);
+    //         }
+    //         else
+    //         {
+    //             input.Value.SetActive(false);
+    //         }
+    //     }
+    // }
 
-    void OnPlayerInputsChanged(Player player) {
-        if (player == _player)
-        {
-            changeInputsVisibility(_player.inputsRuntime);
-        }
-    }
-
-    private void changeInputsVisibility(List<Inputs> playerInput)
-    {
-        // go throught inputsReference and set the corresponding gameobject visibility
-        foreach (var input in inputsReference)
-        {
-            if (playerInput.Contains(input.Key))
-            {
-                input.Value.SetActive(true);
-            }
-            else
-            {
-                input.Value.SetActive(false);
-            }
-        }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
+    // // Update is called once per frame
+    // void Update()
+    // {
         
-    }
+    // }
 }

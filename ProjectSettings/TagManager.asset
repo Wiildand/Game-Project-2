@@ -9,6 +9,7 @@ TagManager:
   - Interactable
   - PlayerManager
   - GlobalProvider
+  - GameManager
   layers:
   - Default
   - TransparentFX

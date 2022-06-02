@@ -3,22 +3,30 @@ using System.Collections;
 
 public class Dispenser : MonoBehaviour {
     public GameObject itemToShootPrefab;
-    public float shootStartDelay = 0.1f;
     public float shootInterval = 3f;
-    public Transform maxPosition;
+    private float elaspedTime = 0f;
 
+    public float shootPointOffset = 0.5f;
+
+    private Vector3 shootPoint;
     private void Start() {
-        StartCoroutine(ShootObject(shootInterval));
+
     }
 
-    private IEnumerator ShootObject(float delay) {
-        yield return new WaitForSeconds(delay + shootStartDelay);
-        shootStartDelay = 0f;
-        GameObject item = Instantiate(itemToShootPrefab, transform.position, transform.rotation);
-        float distance = Vector3.Distance(transform.position, maxPosition.position);
-        float timeBetweenObjects = distance / item.GetComponent<Projectile>().speed;
+    private void Update() {
+        // launch a new item every shootInterval seconds
+        elaspedTime += Time.deltaTime;
+        if (elaspedTime >= shootInterval) {
+            elaspedTime = 0f;
+            Shoot();
+        }
+    }
 
-        Destroy(item, timeBetweenObjects);
-        StartCoroutine(ShootObject(shootInterval));
+    private void Shoot() {
+        // create a new item
+        GameObject item = Instantiate(  itemToShootPrefab,
+                                        transform.position + transform.forward * shootPointOffset,
+                                        transform.rotation);
+        item.transform.parent = transform;
     }
 }

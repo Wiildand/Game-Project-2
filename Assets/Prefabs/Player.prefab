@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 505555139844236543}
   - component: {fileID: 505555139844236537}
   - component: {fileID: 505555139844236536}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 6387154745157146638}
   - component: {fileID: 505555140108320655}
   - component: {fileID: 505555140108320654}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -127,7 +127,7 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
-  m_Height: 1
+  m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &505555140108320655
@@ -246,9 +246,9 @@ MonoBehaviour:
   RideSpringStrenght: 250
   RideSpringDamper: 40
   GravityForce: 3
-  RideHeight: 3
+  RideHeight: 2.5
   JumpForce: 7
-  CayoteTime: 1.5
+  CayoteTime: 0.5
   JumpBufferingTime: 1.5
   inputsOnStart: {fileID: 0}
   inputsRuntime: 
@@ -943,7 +943,7 @@ GameObject:
   - component: {fileID: 5458972918856534431}
   - component: {fileID: 374937852222046566}
   - component: {fileID: 3225739515115054025}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: PlayerModels
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -10,13 +10,16 @@ public class GameplayManager : MonoBehaviour
 
     public GlobalProvider globalProvider;
 
-
-
     private void Start() {
         globalProvider.retry.started += ctx   => {
             this.Restart();
         };
-        
+    }
+
+    private void OnDestroy() {
+        globalProvider.retry.started -= ctx   => {
+            this.Restart();
+        };    
     }
 
     public void Restart()

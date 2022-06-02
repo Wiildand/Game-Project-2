@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.InputSystem.InputAction;
 
+
+public struct PlayerInfos {
+    PlayerInputs inputs;
+    Player player;
+}
 public class PlayerManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    public event Action<Player> OnPlayerInputsChanged;
     private List<Player> _players;
     private Camera _cam;
     private Dictionary <Inputs, Player> _inputsPlayerMap;
@@ -23,8 +26,8 @@ public class PlayerManager : MonoBehaviour
         var players = FindObjectsOfType<Player>();
         _cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
 
-
         _players = new List<Player>(players);
+        Debug.Log("Players found: " + _players.Count);
         _inputsPlayerMap = new Dictionary<Inputs, Player>() {
             { Inputs.MOVE_FORWARD, null },
             { Inputs.MOVE_BACKWARD, null },
@@ -38,7 +41,9 @@ public class PlayerManager : MonoBehaviour
         };
         
         foreach (Player player in _players) {
-            foreach (Inputs input in player.inputsRuntime) { 
+            PlayerInputs  inputs =  player.gameObject.GetComponent<PlayerInputs>();
+            foreach (Inputs input in inputs.current) {
+                Debug.Log("Player: " + player.name + " Input: " + input);
                 _inputsPlayerMap[input] = player; 
             }
         }
@@ -56,15 +61,38 @@ public class PlayerManager : MonoBehaviour
 
         _globalProvider.mouse.performed += onMouseMove;
 
+        Debug.Log("PlayerManager initialized");
+
+    }
+
+    private void OnDestroy() {
+        _globalProvider.mouse.performed -= onMouseMove;
+
+        _globalProvider.UnSubscribeInputOnPerformed(Inputs.MOVE_FORWARD, OnMoveForward);
+        _globalProvider.UnSubscribeInputOnPerformed(Inputs.MOVE_BACKWARD, OnMoveBackward);
+        _globalProvider.UnSubscribeInputOnPerformed(Inputs.MOVE_LEFT, OnMoveLeft);
+        _globalProvider.UnSubscribeInputOnPerformed(Inputs.MOVE_RIGHT, OnMoveRight);
+        _globalProvider.UnSubscribeInputOnStarted(Inputs.INTERACT, OnInteractStart);
+        _globalProvider.UnSubscribeInputOnCanceled(Inputs.INTERACT, OnInteractEnd);
+        _globalProvider.UnSubscribeInputOnPerformed(Inputs.DIVIDE, OnDivide);
+        _globalProvider.UnSubscribeInputOnPerformed(Inputs.SWAP, OnSwap);
+        _globalProvider.UnSubscribeInputOnPerformed(Inputs.JUMP, OnJump);
+        _globalProvider.UnSubscribeInputOnPerformed(Inputs.SHOOT, OnShoot);
+
+
     }
 
     private void RemoveAllInputsOfPlayer(Player player) {
-        foreach (Inputs input in player.inputsRuntime) {
+        // get Player Inputs
+        PlayerInputs inputs = player.gameObject.GetComponent<PlayerInputs>();
+        foreach (Inputs input in inputs.current) {
             _inputsPlayerMap[input] = null;
         }
+
+        inputs.ClearAll();
     }
 
-    public void PlayerDie(Player player) {
+    public void KillPlayer(Player player) {
         _players.Remove(player);
         RemoveAllInputsOfPlayer(player);
         if (_players.Count < 1) {
@@ -85,13 +113,19 @@ public class PlayerManager : MonoBehaviour
     }
 
     public void ChangeInputOwnerShip(Inputs input, Player player){
+        if (_inputsPlayerMap[input] != null) {
+            _inputsPlayerMap[input].gameObject.GetComponent<PlayerInputs>().Remove(input);
+        }
         _inputsPlayerMap[input] = player;
-        player.inputsRuntime.Add(input);
-        OnPlayerInputsChanged.Invoke(player);
+
+        PlayerInputs inputs = player.gameObject.GetComponent<PlayerInputs>();
+
+        inputs.Add(input);
     }
 
     void OnMoveForward(CallbackContext context) {
         var contextValue = context.ReadValue<float>();
+        Debug.Log("MoveForward" + _inputsPlayerMap[Inputs.MOVE_FORWARD].name);
         _inputsPlayerMap[Inputs.MOVE_FORWARD]?.MoveForward(contextValue); 
     }
 
@@ -136,6 +170,8 @@ public class PlayerManager : MonoBehaviour
 
     void onMouseMove(CallbackContext context) {
         var contextValue = context.ReadValue<Vector2>();
+        if (!_cam)
+            return;
         Vector3 point = _cam.ScreenToWorldPoint(new Vector3(contextValue.x, contextValue.y, 1));
         float t = _cam.transform.position.y / (_cam.transform.position.y - point.y);
         Vector3 pointInGame = new Vector3(t * (point.x - _cam.transform.position.x) + _cam.transform.position.x, 1, t * (point.z - _cam.transform.position.z) + _cam.transform.position.z);

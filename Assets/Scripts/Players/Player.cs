@@ -32,7 +32,7 @@ public class Player : MonoBehaviour
     private APlayerState _currentState;
     private Vector3 _goalVelocity;
     private Vector3 _unitGoalDir;
-    private  Interactable _interactable;
+    private AInteractable _interactable;
 
     private Vector3 _positionToLookAt;
 
@@ -59,15 +59,7 @@ public class Player : MonoBehaviour
     [SerializeField] public float CayoteTime;
     [SerializeField] public float JumpBufferingTime;
 
-    [Space]
-    [Header("Inputs")]
-    [SerializeField] public EntitieInputs inputsOnStart;
-    [HideInInspector] public List<Inputs> inputsRuntime;
-
-    // Update is called once per frame
-
     public void Start() {
-        inputsRuntime = new List<Inputs>(inputsOnStart.currents);
         _rb = GetComponent<Rigidbody>();
         _goalVelocity = Vector3.zero;
         _unitGoalDir = Vector3.zero;
@@ -90,31 +82,36 @@ public class Player : MonoBehaviour
     private void FixedUpdate() {
         MovePlayer();
         _currentState.PhysicsUpdate();
+
     }
 
     private void OnTriggerEnter(Collider other) {
         if (other.CompareTag("Interactable")) {
-            _interactable = other.GetComponent<Interactable>();
+            _interactable = other.GetComponent<AInteractable>();
         }
     }
 
     private void OnTriggerExit(Collider other) {
-        if (other.CompareTag("Interactable")) {
+        StopInteraction();
+    }
+
+    public void StopInteraction() {
+        if (_interactable != null) {
+            _interactable.OnInteractionEnd(this);
             _interactable = null;
         }
     }
-
 
     // ALL INPUTS ARE HERE
 
     public void InteractStart() {
         if (_interactable != null) {
-            _interactable.InteractStart();
+            _interactable.OnInteractionStart(this);
         }
     }
     public void InteractEnd() {
         if (_interactable != null) {
-            _interactable.InteractEnd();
+            _interactable.OnInteractionEnd(this);
         }
     }
 
@@ -176,8 +173,7 @@ public class Player : MonoBehaviour
     private void LaunchRaycast()
     {
         Ray ray  = new Ray(transform.position +  Vector3.up * transform.localScale.y , Vector3.down);
-        // debug raycast
-        _raycastHitted = Physics.Raycast(ray, out _rayHit);
+        _raycastHitted = Physics.Raycast(ray, out _rayHit, Mathf.Infinity, -5, QueryTriggerInteraction.Ignore);
     }
 
 

@@ -62,12 +62,12 @@ public class PlayerManager : MonoBehaviour
         _globalProvider.SubscribeInputOnPerformed(Inputs.JUMP, OnJump);
         _globalProvider.SubscribeInputOnPerformed(Inputs.SHOOT, OnShoot);
 
-        _globalProvider.mouse.performed += onMouseMove;
+        _globalProvider.mouse.move.performed += onMouseMove;
 
     }
 
     private void OnDestroy() {
-        _globalProvider.mouse.performed -= onMouseMove;
+        _globalProvider.mouse.move.performed -= onMouseMove;
 
         _globalProvider.UnSubscribeInputOnPerformed(Inputs.MOVE_FORWARD, OnMoveForward);
         _globalProvider.UnSubscribeInputOnPerformed(Inputs.MOVE_BACKWARD, OnMoveBackward);

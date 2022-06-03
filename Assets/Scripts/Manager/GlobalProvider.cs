@@ -2,8 +2,50 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using static UnityEngine.InputSystem.InputAction;
+
+public class Mouse {
+    public InputAction move;
+    public InputAction deltaMove;
+    public InputAction leftClick;
+    public InputAction scroll;
+
+    public UnityEvent<Vector2> dragEvent;
+
+    private bool _isHoldingLeftClick;
+
+    private void OnLeftClick(CallbackContext context) {
+        if (context.started) {
+            Debug.Log("Left click started");
+            _isHoldingLeftClick = true;
+        } else if (context.canceled) {
+            Debug.Log("Left click canceled");
+            _isHoldingLeftClick = false;
+        }
+    }
+
+    private void OnDrag(CallbackContext context) {
+        if (_isHoldingLeftClick) {
+            dragEvent.Invoke(context.ReadValue<Vector2>());
+        }
+    }
+    public Mouse(InputAction move, InputAction deltaMove, InputAction leftClick, InputAction scroll) {
+        this.move = move;
+        this.deltaMove = deltaMove;
+        this.leftClick = leftClick;
+        this.scroll = scroll;
+        _isHoldingLeftClick = false;
+
+        this.deltaMove.performed += OnDrag;
+        this.leftClick.started += OnLeftClick;
+        this.leftClick.canceled += OnLeftClick;
+
+        this.dragEvent = new UnityEvent<Vector2>();
+    }
+
+}
 
 public class GlobalProvider : MonoBehaviour
 {
@@ -11,14 +53,14 @@ public class GlobalProvider : MonoBehaviour
 
     private GameInputs _inputs;
 
-    public InputAction mouse;
+    public Mouse mouse;
     public InputAction menu;
     public InputAction retry;
     private Dictionary<Inputs, InputAction> inputsPlayerMapAction;
 
     void Awake()
     {
-        _inputs = new GameInputs();       
+        _inputs = new GameInputs();
 
         // Player
         inputsPlayerMapAction = new Dictionary<Inputs, InputAction>();
@@ -44,8 +86,23 @@ public class GlobalProvider : MonoBehaviour
         inputsPlayerMapAction.Add(Inputs.SHOOT, _inputs.Player.Fire);
 
         // Other
+
+        // MOUSE
+        
         _inputs.Other.Mouse.Enable();
-        mouse = _inputs.Other.Mouse;
+        _inputs.Other.MouseDelta.Enable();
+        _inputs.Other.LeftClick.Enable();
+        _inputs.Other.Scroll.Enable();
+
+        mouse = new Mouse(  _inputs.Other.Mouse, 
+                            _inputs.Other.MouseDelta, 
+                            _inputs.Other.LeftClick, 
+                            _inputs.Other.Scroll
+                        );
+
+        mouse.dragEvent.AddListener((Vector2 delta) => {
+            Debug.Log("Mouse Drag: " + delta);
+        });
 
         _inputs.Other.Retry.Enable();
         retry = _inputs.Other.Retry;

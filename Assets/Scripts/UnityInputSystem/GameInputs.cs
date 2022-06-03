@@ -250,6 +250,33 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""MouseDelta"",
+                    ""type"": ""Value"",
+                    ""id"": ""0e65704b-1586-4a6d-8373-7aa0c18ce486"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""LeftClick"",
+                    ""type"": ""Button"",
+                    ""id"": ""dca6b49b-3892-4b96-bb75-4547f206b868"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Scroll"",
+                    ""type"": ""Value"",
+                    ""id"": ""dd21f999-1552-48f2-aa59-4bbc21683018"",
+                    ""expectedControlType"": ""Analog"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -307,6 +334,39 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
                     ""action"": ""Mouse"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""72a81ef0-44bd-4a76-9473-f29c11c9b2e6"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MouseDelta"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c5c579c7-d167-4a35-89e7-e32d21232641"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LeftClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5f2d517e-bf5d-46e3-ab40-d75875cf5630"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Scroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -330,6 +390,9 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
         m_Other_Retry = m_Other.FindAction("Retry", throwIfNotFound: true);
         m_Other_Pause = m_Other.FindAction("Pause", throwIfNotFound: true);
         m_Other_Mouse = m_Other.FindAction("Mouse", throwIfNotFound: true);
+        m_Other_MouseDelta = m_Other.FindAction("MouseDelta", throwIfNotFound: true);
+        m_Other_LeftClick = m_Other.FindAction("LeftClick", throwIfNotFound: true);
+        m_Other_Scroll = m_Other.FindAction("Scroll", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -490,6 +553,9 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
     private readonly InputAction m_Other_Retry;
     private readonly InputAction m_Other_Pause;
     private readonly InputAction m_Other_Mouse;
+    private readonly InputAction m_Other_MouseDelta;
+    private readonly InputAction m_Other_LeftClick;
+    private readonly InputAction m_Other_Scroll;
     public struct OtherActions
     {
         private @GameInputs m_Wrapper;
@@ -498,6 +564,9 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
         public InputAction @Retry => m_Wrapper.m_Other_Retry;
         public InputAction @Pause => m_Wrapper.m_Other_Pause;
         public InputAction @Mouse => m_Wrapper.m_Other_Mouse;
+        public InputAction @MouseDelta => m_Wrapper.m_Other_MouseDelta;
+        public InputAction @LeftClick => m_Wrapper.m_Other_LeftClick;
+        public InputAction @Scroll => m_Wrapper.m_Other_Scroll;
         public InputActionMap Get() { return m_Wrapper.m_Other; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -519,6 +588,15 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
                 @Mouse.started -= m_Wrapper.m_OtherActionsCallbackInterface.OnMouse;
                 @Mouse.performed -= m_Wrapper.m_OtherActionsCallbackInterface.OnMouse;
                 @Mouse.canceled -= m_Wrapper.m_OtherActionsCallbackInterface.OnMouse;
+                @MouseDelta.started -= m_Wrapper.m_OtherActionsCallbackInterface.OnMouseDelta;
+                @MouseDelta.performed -= m_Wrapper.m_OtherActionsCallbackInterface.OnMouseDelta;
+                @MouseDelta.canceled -= m_Wrapper.m_OtherActionsCallbackInterface.OnMouseDelta;
+                @LeftClick.started -= m_Wrapper.m_OtherActionsCallbackInterface.OnLeftClick;
+                @LeftClick.performed -= m_Wrapper.m_OtherActionsCallbackInterface.OnLeftClick;
+                @LeftClick.canceled -= m_Wrapper.m_OtherActionsCallbackInterface.OnLeftClick;
+                @Scroll.started -= m_Wrapper.m_OtherActionsCallbackInterface.OnScroll;
+                @Scroll.performed -= m_Wrapper.m_OtherActionsCallbackInterface.OnScroll;
+                @Scroll.canceled -= m_Wrapper.m_OtherActionsCallbackInterface.OnScroll;
             }
             m_Wrapper.m_OtherActionsCallbackInterface = instance;
             if (instance != null)
@@ -535,6 +613,15 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
                 @Mouse.started += instance.OnMouse;
                 @Mouse.performed += instance.OnMouse;
                 @Mouse.canceled += instance.OnMouse;
+                @MouseDelta.started += instance.OnMouseDelta;
+                @MouseDelta.performed += instance.OnMouseDelta;
+                @MouseDelta.canceled += instance.OnMouseDelta;
+                @LeftClick.started += instance.OnLeftClick;
+                @LeftClick.performed += instance.OnLeftClick;
+                @LeftClick.canceled += instance.OnLeftClick;
+                @Scroll.started += instance.OnScroll;
+                @Scroll.performed += instance.OnScroll;
+                @Scroll.canceled += instance.OnScroll;
             }
         }
     }
@@ -557,5 +644,8 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
         void OnRetry(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
         void OnMouse(InputAction.CallbackContext context);
+        void OnMouseDelta(InputAction.CallbackContext context);
+        void OnLeftClick(InputAction.CallbackContext context);
+        void OnScroll(InputAction.CallbackContext context);
     }
 }

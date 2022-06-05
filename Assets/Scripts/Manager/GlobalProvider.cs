@@ -11,38 +11,49 @@ public class Mouse {
     public InputAction deltaMove;
     public InputAction leftClick;
     public InputAction scroll;
-
     public UnityEvent<Vector2> dragEvent;
-
+    private Vector2 dragOldValue;
+    private float _dragThreshold;
     private bool _isHoldingLeftClick;
 
     private void OnLeftClick(CallbackContext context) {
         if (context.started) {
-            Debug.Log("Left click started");
             _isHoldingLeftClick = true;
         } else if (context.canceled) {
-            Debug.Log("Left click canceled");
             _isHoldingLeftClick = false;
         }
     }
 
     private void OnDrag(CallbackContext context) {
-        if (_isHoldingLeftClick) {
-            dragEvent.Invoke(context.ReadValue<Vector2>());
+        Vector2 delta = context.ReadValue<Vector2>();
+
+        if (_isHoldingLeftClick && delta.magnitude > _dragThreshold) {
+            dragEvent.Invoke(delta);
+        } else {
+            dragEvent.Invoke(Vector2.zero);
         }
     }
-    public Mouse(InputAction move, InputAction deltaMove, InputAction leftClick, InputAction scroll) {
+
+    public Mouse(InputAction move,
+                 InputAction deltaMove,
+                 InputAction leftClick,
+                 InputAction scroll,
+                 float dragThreshold) {
         this.move = move;
         this.deltaMove = deltaMove;
         this.leftClick = leftClick;
         this.scroll = scroll;
         _isHoldingLeftClick = false;
 
+        this.deltaMove.started += OnDrag;
         this.deltaMove.performed += OnDrag;
+        this.deltaMove.canceled += OnDrag;
+
         this.leftClick.started += OnLeftClick;
         this.leftClick.canceled += OnLeftClick;
 
         this.dragEvent = new UnityEvent<Vector2>();
+        _dragThreshold = dragThreshold;
     }
 
 }
@@ -53,8 +64,15 @@ public class GlobalProvider : MonoBehaviour
 
     private GameInputs _inputs;
 
+    [Header("Mouse")]
+    [SerializeField]
+    private float dragThreshold = 2;
+
+    [HideInInspector]
     public Mouse mouse;
+    [HideInInspector]
     public InputAction menu;
+    [HideInInspector]
     public InputAction retry;
     private Dictionary<Inputs, InputAction> inputsPlayerMapAction;
 
@@ -97,12 +115,9 @@ public class GlobalProvider : MonoBehaviour
         mouse = new Mouse(  _inputs.Other.Mouse, 
                             _inputs.Other.MouseDelta, 
                             _inputs.Other.LeftClick, 
-                            _inputs.Other.Scroll
+                            _inputs.Other.Scroll,
+                            dragThreshold
                         );
-
-        mouse.dragEvent.AddListener((Vector2 delta) => {
-            Debug.Log("Mouse Drag: " + delta);
-        });
 
         _inputs.Other.Retry.Enable();
         retry = _inputs.Other.Retry;

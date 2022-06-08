@@ -22,9 +22,8 @@ public class PushPullBlock : MonoBehaviour
         }
     }
 
-    public void StartCarry(InteractableParameters param)
+    public void StartCarry(Player player)
     {
-        Player player = param.player;
         float widthSize = new Vector3(
             transform.localScale.x,
             0,
@@ -42,11 +41,9 @@ public class PushPullBlock : MonoBehaviour
 
     }
 
-    public void StopCarry(InteractableParameters param)
+    public void StopCarry(Player player)
     {
         // if distance between player and block is greater than 2, StopInteraction
-        Player player = param.player;
-
         transform.parent = null;
         _rb.useGravity = true;
         _rb.isKinematic = false;

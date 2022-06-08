@@ -8,10 +8,6 @@ public class InputsVisibility : MonoBehaviour
     private PlayerManager _playerManager;
 
     [SerializeField]
-    private Player _player;
-
-
-    [SerializeField]
     private GameObject Jump;
     [SerializeField]
     private GameObject Shoot;
@@ -30,7 +26,6 @@ public class InputsVisibility : MonoBehaviour
     private GameObject MoveRight;
 
     private Dictionary<Inputs, GameObject> inputsReference;
-    // Start is called before the first frame update
     void Start()
     {
         inputsReference = new Dictionary<Inputs, GameObject>()
@@ -46,25 +41,28 @@ public class InputsVisibility : MonoBehaviour
         };
 
     }
-    // private void changeInputsVisibility(List<Inputs> playerInput)
-    // {
-    //     // go throught inputsReference and set the corresponding gameobject visibility
-    //     foreach (var input in inputsReference)
-    //     {
-    //         if (playerInput.Contains(input.Key))
-    //         {
-    //             input.Value.SetActive(true);
-    //         }
-    //         else
-    //         {
-    //             input.Value.SetActive(false);
-    //         }
-    //     }
-    // }
 
-    // // Update is called once per frame
-    // void Update()
-    // {
-        
-    // }
+    public void SetInputsVisibility(bool visible, Inputs input)
+    {
+        if (inputsReference.ContainsKey(input))
+        {
+            inputsReference[input].SetActive(visible);
+        }
+    }
+
+    public void PressInput(Inputs input) {
+        // make the input opacity 0.5
+        if (inputsReference.ContainsKey(input))
+        {
+            inputsReference[input].GetComponent<Renderer>().material.color = new Color(1, 1, 1, 0.5f);
+        }
+    }
+
+    public void ReleaseInput(Inputs input) {
+        // make the input opacity 1
+        if (inputsReference.ContainsKey(input))
+        {
+            inputsReference[input].GetComponent<Renderer>().material.color = new Color(1, 1, 1, 1);
+        }
+    }
 }

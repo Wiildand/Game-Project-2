@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PushPullBlockTrigger : AInteractable
+public class PushPullBlockTrigger : AInteractableWithParam<Player>
 {
     private BoxCollider _collider;
     private void Start() {
@@ -11,11 +11,11 @@ public class PushPullBlockTrigger : AInteractable
 
     override public void OnInteractionStart(Player player) {
         GetComponent<Collider>().enabled = false;
-        launchStartActions(new InteractableParameters(player));
+        launchStartActions(player);
     }
 
     override public void OnInteractionEnd(Player player) {
         GetComponent<Collider>().enabled = true;
-        launchEndActions(new InteractableParameters(player));
+        launchEndActions(player);
     }
 }

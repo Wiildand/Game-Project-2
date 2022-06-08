@@ -13,7 +13,7 @@ public class Mouse {
     public InputAction scroll;
     public UnityEvent<Vector2> dragEvent;
     private Vector2 dragOldValue;
-    private float _dragThreshold;
+    private Vector2 _dragThreshold;
     private bool _isHoldingLeftClick;
 
     private void OnLeftClick(CallbackContext context) {
@@ -27,8 +27,10 @@ public class Mouse {
     private void OnDrag(CallbackContext context) {
         Vector2 delta = context.ReadValue<Vector2>();
 
-        if (_isHoldingLeftClick && delta.magnitude > _dragThreshold) {
-            dragEvent.Invoke(delta);
+        if (_isHoldingLeftClick) {
+            float x =  Mathf.Abs(delta.x) < _dragThreshold.x ? 0 : delta.x;
+            float y =  Mathf.Abs(delta.y) < _dragThreshold.y ? 0 : delta.y;
+            dragEvent.Invoke(new Vector2(x, y));
         } else {
             dragEvent.Invoke(Vector2.zero);
         }
@@ -38,7 +40,7 @@ public class Mouse {
                  InputAction deltaMove,
                  InputAction leftClick,
                  InputAction scroll,
-                 float dragThreshold) {
+                 Vector2 dragThreshold) {
         this.move = move;
         this.deltaMove = deltaMove;
         this.leftClick = leftClick;
@@ -66,7 +68,7 @@ public class GlobalProvider : MonoBehaviour
 
     [Header("Mouse")]
     [SerializeField]
-    private float dragThreshold = 2;
+    private Vector2 dragThreshold = new Vector2(0.1f, 0.1f);
 
     [HideInInspector]
     public Mouse mouse;

@@ -4,44 +4,20 @@ using System.Collections.Generic;
 using UnityEngine.Events;
 using System;
 
-public class InteractableParameters 
-{
-    public Player player;
-    public GameObject gameObject;
-
-    public InteractableParameters(GameObject gameObject)
-    {
-        this.gameObject = gameObject;
-        this.player = null;
-
-        if (gameObject.tag == "Player")
-        {
-            Player player = gameObject.GetComponent<Player>();
-            this.player = player;
-        }
-    }
-
-    public InteractableParameters(Player player)
-    {
-        this.gameObject = player.gameObject;
-        this.player = player;
-    }
-}
-
 public abstract class AInteractable : MonoBehaviour
 {
 
-    public UnityEvent<InteractableParameters> startActions;
-    public UnityEvent<InteractableParameters> endActions;
+    public UnityEvent startActions;
+    public UnityEvent endActions;
 
-    protected void launchStartActions(InteractableParameters param)
+    protected void launchStartActions()
     {
-        startActions.Invoke(param);
+        startActions.Invoke();
     }
 
-    protected void launchEndActions(InteractableParameters param)
+    protected void launchEndActions()
     {
-        endActions.Invoke(param);
+        endActions.Invoke();
       
     }
 
@@ -49,12 +25,32 @@ public abstract class AInteractable : MonoBehaviour
     public virtual void OnInteractionStart(Player player) {
         Debug.Log("Interaction Start");
         
-        launchStartActions( new InteractableParameters(player) );
+        launchStartActions();
     }
 
     public virtual void OnInteractionEnd(Player player) {
         Debug.Log("Interaction End");
 
-        launchEndActions( new InteractableParameters(player) );
+        launchEndActions();
     }
 }
+
+public abstract class AInteractableWithParam<T> : AInteractable
+{
+
+    public UnityEvent<T> startActionsWithParam;
+    public UnityEvent<T> endActionsWithParam;
+
+    protected void launchStartActions(T arg)
+    {
+        startActionsWithParam.Invoke(arg);
+    }
+
+    protected void launchEndActions(T arg)
+    {
+        endActionsWithParam.Invoke(arg);
+      
+    }
+
+}
+

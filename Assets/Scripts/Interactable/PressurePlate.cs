@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PressurePlate : AInteractable
+public class PressurePlate : AInteractableWithParam<Player>
 {
     [SerializeField]
     private bool stayActivatedAfterInteraction = false;
@@ -19,15 +19,35 @@ public class PressurePlate : AInteractable
         objectsOnPressurePlate = new List<GameObject>();
     }
 
+    private void Press(Collider other) {
+        if (other.gameObject.tag == "Player")
+        {
+            Player player = other.gameObject.GetComponent<Player>();
+            launchStartActions(player);
+        } else {
+            launchStartActions();
+        }
+
+    }
+
+    private void Release(Collider other) {
+        if (other.gameObject.tag == "Player")
+        {
+            Player player = other.gameObject.GetComponent<Player>();
+            launchEndActions(player);
+        } else {
+            launchEndActions();
+        }
+    }
+
     private void OnTriggerEnter(Collider other) {
 
         if (activated && stayActivatedAfterInteraction || canOnlyBeActivatedByPlayer && other.gameObject.tag != "Player") {
             return;
         }
 
-        InteractableParameters interactableParameters = new InteractableParameters(other.gameObject);
+        launchStartActions();
 
-        launchStartActions(interactableParameters);
         objectsOnPressurePlate.Add(other.gameObject);
         activated = true;
     }
@@ -37,10 +57,7 @@ public class PressurePlate : AInteractable
         if (activated && stayActivatedAfterInteraction || objectsOnPressurePlate.Count > 0) {
             return;
         }
-
-        InteractableParameters interactableParameters = new InteractableParameters(other.gameObject);
-
-        launchEndActions(interactableParameters);
+        launchEndActions();
         activated = false;
     }
 

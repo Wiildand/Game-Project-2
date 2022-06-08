@@ -8,12 +8,13 @@ using static UnityEngine.InputSystem.InputAction;
 public class OrbitCamera : MonoBehaviour
 {
     public GameObject scene;
+    
+    [SerializeField]
+    private Vector2 sensitivity = new Vector2(1, 1);
+    
     private CinemachineFreeLook _freelookCamera;
     public  GlobalProvider _globalProvider;
-    // Start is called before the first frame update
 
-    private string XAxisName = "Mouse X";
-    private string YAxisName = "Mouse Y";
     void Start()
     {
         _freelookCamera = GetComponent<CinemachineFreeLook>();
@@ -56,7 +57,7 @@ public class OrbitCamera : MonoBehaviour
 
     void OnDrag(Vector2 delta)
     {
-
+        delta = delta.normalized * sensitivity;
 
         _freelookCamera.m_XAxis.m_InputAxisValue = delta.x;
         _freelookCamera.m_YAxis.m_InputAxisValue = delta.y;

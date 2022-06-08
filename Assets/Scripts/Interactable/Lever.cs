@@ -7,12 +7,12 @@ class Lever : AInteractable {
     private bool activated = false;
 
     override public void OnInteractionStart(Player player) {
-        if (activated) {
-            launchStartActions(new InteractableParameters(player));
-            activated = false;
-        } else {
-            launchEndActions(new InteractableParameters(player));
+        if (!activated) {
+            launchStartActions();
             activated = true;
+        } else {
+            launchEndActions();
+            activated = false;
         }
     }
 

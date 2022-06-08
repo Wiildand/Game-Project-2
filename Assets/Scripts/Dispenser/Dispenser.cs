@@ -12,12 +12,12 @@ public class Dispenser : MonoBehaviour {
 
     private bool canShoot = true;
 
-    public void StopShooting(InteractableParameters param) {
+    public void StopShooting() {
         canShoot = false;
         elaspedTime = 0f;
     }
 
-    public void StartShooting(InteractableParameters param) {
+    public void StartShooting() {
         canShoot = true;
     }
 

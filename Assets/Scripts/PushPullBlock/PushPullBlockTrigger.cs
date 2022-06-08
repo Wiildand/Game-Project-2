@@ -11,11 +11,11 @@ public class PushPullBlockTrigger : AInteractable
 
     override public void OnInteractionStart(Player player) {
         GetComponent<Collider>().enabled = false;
-        launchStartActions(player);
+        launchStartActions(new InteractableParameters(player));
     }
 
     override public void OnInteractionEnd(Player player) {
-        launchEndActions(player);
         GetComponent<Collider>().enabled = true;
+        launchEndActions(new InteractableParameters(player));
     }
 }

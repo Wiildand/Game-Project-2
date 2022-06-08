@@ -22,28 +22,31 @@ public class PushPullBlock : MonoBehaviour
         }
     }
 
-    public void StartCarry(Player player)
+    public void StartCarry(InteractableParameters param)
     {
-        _rb.isKinematic = true;
-
+        Player player = param.player;
         float widthSize = new Vector3(
             transform.localScale.x,
             0,
             transform.localScale.z
         ).magnitude; 
-
         Vector3 direction = transform.position - player.transform.position;
+
+
+        _rb.isKinematic = true;
         transform.position = player.transform.position + 
                             new Vector3(direction.normalized.x, 0, direction.normalized.z) * widthSize+
                             Vector3.up * (transform.localScale.y - player.transform.position.y) / 2;
-
         transform.parent = player.transform;
         _player = player;
 
     }
 
-    public void StopCarry(Player player)
+    public void StopCarry(InteractableParameters param)
     {
+        // if distance between player and block is greater than 2, StopInteraction
+        Player player = param.player;
+
         transform.parent = null;
         _rb.useGravity = true;
         _rb.isKinematic = false;
@@ -51,6 +54,6 @@ public class PushPullBlock : MonoBehaviour
         _player = null;
         //_rb.velocity = player._rb.velocity;
         _rb.AddForce(player._rb.velocity, ForceMode.VelocityChange);
-
+       
     }
 }

@@ -9,16 +9,25 @@ public class Dispenser : MonoBehaviour {
     public float shootPointOffset = 0.5f;
 
     private Vector3 shootPoint;
-    private void Start() {
 
+    private bool canShoot = true;
+
+    public void StopShooting(InteractableParameters param) {
+        canShoot = false;
+        elaspedTime = 0f;
+    }
+
+    public void StartShooting(InteractableParameters param) {
+        canShoot = true;
     }
 
     private void Update() {
-        // launch a new item every shootInterval seconds
-        elaspedTime += Time.deltaTime;
-        if (elaspedTime >= shootInterval) {
-            elaspedTime = 0f;
-            Shoot();
+        if (canShoot) {
+            elaspedTime += Time.deltaTime;
+            if (elaspedTime >= shootInterval) {
+                elaspedTime = 0f;
+                Shoot();
+            }
         }
     }
 

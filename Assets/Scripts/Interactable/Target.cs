@@ -24,13 +24,11 @@ public class Target : AInteractable
         }
     }
 
-    private void OnTriggerEnter(Collider other) {
+    private void OnCollisionEnter(Collision other) {
         delayAfterDisabledCounter = delayAfterDisabled;
         hasInteracted = true;
         launchStartActions();
     }
-
-
     override public void OnInteractionEnd(Player player) {
     }
     override public void OnInteractionStart(Player player) {

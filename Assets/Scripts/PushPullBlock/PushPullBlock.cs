@@ -9,11 +9,13 @@ public class PushPullBlock : MonoBehaviour
     private TeleportableEvent _teleportable;
     private Player _player;
 
+    private float minDistance;
+
     private void Start() {
         _teleportable = GetComponent<TeleportableEvent>();
-        _rb = GetComponent<Rigidbody>();
-        _rb.sleepThreshold = 0f;
         _teleportable.onTeleported += OnTeleported;
+        _rb = GetComponent<Rigidbody>();
+        minDistance = _rb.transform.localScale.y * 1.75f;
     }
 
     private void OnTeleported() {
@@ -22,34 +24,36 @@ public class PushPullBlock : MonoBehaviour
         }
     }
 
+
     public void StartCarry(Player player)
     {
-        float widthSize = new Vector3(
-            transform.localScale.x,
-            0,
-            transform.localScale.z
-        ).magnitude; 
-        Vector3 direction = transform.position - player.transform.position;
+
+        Vector3 directionNormalized = (_rb.transform.position - player.transform.position).normalized;
+        float offset = Mathf.Abs(Mathf.Abs(directionNormalized.x) - Mathf.Abs(directionNormalized.z));
+        float offsetDiagonal = (1 - offset) * minDistance;
+        float offsetPerpendicular = offset * minDistance;
+
+        _rb.useGravity = false;
+
+        _rb.transform.position = player.transform.position + 
+                                new Vector3(directionNormalized.x, 0, directionNormalized.z) * 
+                                (offsetDiagonal + offsetPerpendicular + minDistance);
 
 
-        _rb.isKinematic = true;
-        transform.position = player.transform.position + 
-                            new Vector3(direction.normalized.x, 0, direction.normalized.z) * widthSize+
-                            Vector3.up * (transform.localScale.y - player.transform.position.y) / 2;
-        transform.parent = player.transform;
+        _rb.transform.parent = player.transform;
         _player = player;
 
     }
 
+    private void Update() {
+    }
+
     public void StopCarry(Player player)
     {
-        // if distance between player and block is greater than 2, StopInteraction
-        transform.parent = null;
+        _rb.transform.parent = transform;
         _rb.useGravity = true;
-        _rb.isKinematic = false;
 
         _player = null;
-        //_rb.velocity = player._rb.velocity;
         _rb.AddForce(player._rb.velocity, ForceMode.VelocityChange);
        
     }

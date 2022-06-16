@@ -24,9 +24,8 @@ public class PressurePlate : AInteractableWithParam<Player>
         {
             Player player = other.gameObject.GetComponent<Player>();
             launchStartActions(player);
-        } else {
-            launchStartActions();
-        }
+        } 
+        launchStartActions();
 
     }
 
@@ -35,18 +34,17 @@ public class PressurePlate : AInteractableWithParam<Player>
         {
             Player player = other.gameObject.GetComponent<Player>();
             launchEndActions(player);
-        } else {
-            launchEndActions();
-        }
+        } 
+        launchEndActions();
     }
 
     private void OnTriggerEnter(Collider other) {
 
-        if (activated && stayActivatedAfterInteraction || canOnlyBeActivatedByPlayer && other.gameObject.tag != "Player") {
+        if (other.isTrigger || activated && stayActivatedAfterInteraction || canOnlyBeActivatedByPlayer && other.gameObject.tag != "Player") {
             return;
         }
 
-        launchStartActions();
+        Press(other);
 
         objectsOnPressurePlate.Add(other.gameObject);
         activated = true;
@@ -57,7 +55,8 @@ public class PressurePlate : AInteractableWithParam<Player>
         if (activated && stayActivatedAfterInteraction || objectsOnPressurePlate.Count > 0) {
             return;
         }
-        launchEndActions();
+
+        Release(other);
         activated = false;
     }
 

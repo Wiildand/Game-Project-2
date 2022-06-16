@@ -35,16 +35,6 @@ public class PlayerInputs : MonoBehaviour
             inputsVisibilityManager.SetInputsVisibility(true, input);
         }
 
-        // JUMP
-        // SHOOT
-        // INTERACT
-        // DIVIDE
-        // MOVE_FORWARD
-        // MOVE_BACKWARD
-        // MOVE_LEFT
-        // MOVE_RIGHT
-        // GlobalProvider\
-
         _globalProvider.SubscribeInputOnStarted(Inputs.MOVE_FORWARD, (ctx) => { inputsVisibilityManager.PressInput(Inputs.MOVE_FORWARD); });
         _globalProvider.SubscribeInputOnCanceled(Inputs.MOVE_FORWARD, (ctx) => { inputsVisibilityManager.ReleaseInput(Inputs.MOVE_FORWARD); });
 

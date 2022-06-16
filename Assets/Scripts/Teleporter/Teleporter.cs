@@ -11,59 +11,80 @@ public class Teleporter : MonoBehaviour {
     [SerializeField]
     private bool canGoBack = true;
 
-    private List<Collider> _starToEndColliders;
-    private List<Collider> _endToStartColliders;
+    private List<GameObject> _starToEndObject;
+    private List<GameObject> _endToStartObjects;
 
 
     private void Start() {
-        _starToEndColliders = new List<Collider>();
-        _endToStartColliders = new List<Collider>();
+        _starToEndObject = new List<GameObject>();
+        _endToStartObjects = new List<GameObject>();
 
-        teleporterStart.onTriggerEnter += OnTeleporterStartTriggerEnter;
-        teleporterStart.onTriggerExit += OnTeleporterStartTriggerExit;
+        teleporterStart.onTriggerEnter += TeleportToEnd;
+        teleporterStart.onTriggerExit += ExitStartTeleporter;
 
 
-        teleporterEnd.onTriggerEnter += OnTeleporterEndTriggerEnter;
-        teleporterEnd.onTriggerExit += OnTeleporterEndTriggerExit;
+        teleporterEnd.onTriggerEnter += TeleportToStart;
+        teleporterEnd.onTriggerExit += ExitEndTeleporter;
     }
 
     private void TeleportToDestination(Collider other, Vector3 destination) {
-        // if other have rigidbody then moce it with MovePosition
-        destination += new Vector3(0, other.transform.position.y, 0);
+
+
+        Vector3 finalDestination = new Vector3(destination.x, other.transform.position.y, destination.z);
+
         if (other.attachedRigidbody != null) {
-            other.attachedRigidbody.MovePosition(destination);
+            other.attachedRigidbody.MovePosition(finalDestination);
         } else {
-            other.transform.position = destination;
+            other.transform.position = finalDestination;
         }
 
+    }
+
+    private void TeleportToEnd(Collider other) {
+        Debug.Log("TeleportToEnd");
+        //Debug.Break();
+
+        if (other.isTrigger || _endToStartObjects.Contains(other.gameObject)) {
+            return;
+        }
+
+        // if other have rigidbody then moce it with MovePosition
         if (other.GetComponent<TeleportableEvent>() != null) {
             other.GetComponent<TeleportableEvent>().Teleported();
         }
-    }
-
-    private void OnTeleporterStartTriggerEnter(Collider other) {
-        if (_endToStartColliders.Contains(other)) {
-            return;
-        }
+        _starToEndObject.Add(other.gameObject);    
         TeleportToDestination(other, teleporterEnd.transform.position);
-        _starToEndColliders.Add(other);    
     }
 
-    private void OnTeleporterStartTriggerExit(Collider other) {
-        _endToStartColliders.Remove(other);
-    }
+    private void TeleportToStart(Collider other) {
+        Debug.Log("TeleportToStart");
+        // debug _starToEndObject
+        for (int i = 0; i < _starToEndObject.Count; i++) {
+            Debug.Log(_starToEndObject[i].name);
+            Debug.Log(i);
+        }
 
-    private void OnTeleporterEndTriggerEnter(Collider other) {
-        if (!canGoBack || _starToEndColliders.Contains(other)) {
+        if (other.isTrigger || !canGoBack || _starToEndObject.Contains(other.gameObject)) {
+            Debug.Log("return");
             return;
         }
+        if (other.GetComponent<TeleportableEvent>() != null) {
+            other.GetComponent<TeleportableEvent>().Teleported();
+        }
+        _endToStartObjects.Add(other.gameObject);
         TeleportToDestination(other, teleporterStart.transform.position);
-        _endToStartColliders.Add(other);
-
     }
 
-    private void OnTeleporterEndTriggerExit(Collider other) {
-        _starToEndColliders.Remove(other);
+    private void ExitStartTeleporter(Collider other) {
+        Debug.Log("ExitStartTeleporter");
+        //Debug.Break();
+        _endToStartObjects.Remove(other.gameObject);
+    }
+
+    private void ExitEndTeleporter(Collider other) {
+        Debug.Log("ExitEndTeleporter");
+        //Debug.Break();
+        _starToEndObject.Remove(other.gameObject);
     }
 
 

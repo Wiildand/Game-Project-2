@@ -3,10 +3,9 @@ using System.Collections;
 
 public class Dispenser : MonoBehaviour {
     public GameObject itemToShootPrefab;
+    public Transform placeToShoot;
     public float shootInterval = 3f;
     private float elaspedTime = 0f;
-
-    public float shootPointOffset = 0.5f;
 
     private Vector3 shootPoint;
 
@@ -34,7 +33,7 @@ public class Dispenser : MonoBehaviour {
     private void Shoot() {
         // create a new item
         GameObject item = Instantiate(  itemToShootPrefab,
-                                        transform.position + transform.forward * shootPointOffset,
+                                        placeToShoot.position,
                                         transform.rotation);
         item.transform.parent = transform;
     }

@@ -100,6 +100,7 @@ public class Player : MonoBehaviour
 
     private void OnTriggerExit(Collider other) {
         if (_interactableCollider == other) {
+            Debug.Log("Exit");
             if (_isInteracting)
                 StopInteraction();
             _interactableCollider = null;
@@ -126,14 +127,9 @@ public class Player : MonoBehaviour
             return;
         }
         // if distance is too big, stop interaction
-        if (Vector3.Distance(transform.position, _interactableCollider.transform.position) > 2) {
-            StopInteraction();
-            return;
-        } else {
-            _interactableCollider.GetComponent<AInteractable>().OnInteractionEnd(this);
-            _isInteracting = false;
-        }
-    }
+        _interactableCollider.GetComponent<AInteractable>().OnInteractionEnd(this);
+        _isInteracting = false;
+}
 
     public void Jump() {
         _jumpBufferingTimeCounter = JumpBufferingTime;
@@ -154,7 +150,7 @@ public class Player : MonoBehaviour
     }
 
     public void Shoot(){
-        GameObject fireball = Instantiate(FireballPrefab, transform.position + transform.forward * 0.5f, Quaternion.identity);
+        GameObject fireball = Instantiate(FireballPrefab, transform.position + PlayerModel.forward, Quaternion.identity);
         fireball.GetComponent<FireBall>().Shoot(this, FireForce);
     }
 

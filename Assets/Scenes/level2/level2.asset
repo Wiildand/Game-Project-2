@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3451fb6b633c804419a8febc946f596b, type: 3}
   m_Name: level2
   m_EditorClassIdentifier: 
-  currents: 
+  currents: 02000000

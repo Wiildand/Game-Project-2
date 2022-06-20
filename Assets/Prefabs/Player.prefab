@@ -166,7 +166,7 @@ MonoBehaviour:
   RideSpringStrenght: 250
   RideSpringDamper: 40
   GravityForce: 3
-  RideHeight: 2.5
+  RideHeight: 3.5
   JumpForce: 7
   CayoteTime: 0.5
   JumpBufferingTime: 1.5

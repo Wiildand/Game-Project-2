@@ -173,11 +173,13 @@ public class PlayerManager : MonoBehaviour
         var contextValue = context.ReadValue<Vector2>();
         if (!_cam)
             return;
-        Vector3 point = _cam.ScreenToWorldPoint(new Vector3(contextValue.x, contextValue.y, 1));
-        float t = _cam.transform.position.y / (_cam.transform.position.y - point.y);
-        Vector3 pointInGame = new Vector3(t * (point.x - _cam.transform.position.x) + _cam.transform.position.x, 1, t * (point.z - _cam.transform.position.z) + _cam.transform.position.z);
-        foreach (Player player in _players) {
-            player.UpdateMousePosition(pointInGame);
+        Ray ray = _cam.ScreenPointToRay(contextValue);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, 100)) {
+            foreach (Player player in _players) {
+                player.UpdateMousePosition(hit.point);
+            }
         }
     }
 

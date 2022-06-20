@@ -26,7 +26,7 @@ public class InputsVisibility : MonoBehaviour
     private GameObject MoveRight;
 
     private Dictionary<Inputs, GameObject> inputsReference;
-    void Start()
+    void Awake()
     {
         inputsReference = new Dictionary<Inputs, GameObject>()
         {

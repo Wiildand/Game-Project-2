@@ -277,6 +277,15 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Controls"",
+                    ""type"": ""Button"",
+                    ""id"": ""16cb9241-2238-4e76-a569-cd3b3923eccc"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -367,6 +376,17 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
                     ""action"": ""Scroll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dbe4153e-e636-4cef-be45-6cd6ff6f0fe1"",
+                    ""path"": ""<Keyboard>/n"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Controls"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -393,6 +413,7 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
         m_Other_MouseDelta = m_Other.FindAction("MouseDelta", throwIfNotFound: true);
         m_Other_LeftClick = m_Other.FindAction("LeftClick", throwIfNotFound: true);
         m_Other_Scroll = m_Other.FindAction("Scroll", throwIfNotFound: true);
+        m_Other_Controls = m_Other.FindAction("Controls", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -556,6 +577,7 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
     private readonly InputAction m_Other_MouseDelta;
     private readonly InputAction m_Other_LeftClick;
     private readonly InputAction m_Other_Scroll;
+    private readonly InputAction m_Other_Controls;
     public struct OtherActions
     {
         private @GameInputs m_Wrapper;
@@ -567,6 +589,7 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
         public InputAction @MouseDelta => m_Wrapper.m_Other_MouseDelta;
         public InputAction @LeftClick => m_Wrapper.m_Other_LeftClick;
         public InputAction @Scroll => m_Wrapper.m_Other_Scroll;
+        public InputAction @Controls => m_Wrapper.m_Other_Controls;
         public InputActionMap Get() { return m_Wrapper.m_Other; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -597,6 +620,9 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
                 @Scroll.started -= m_Wrapper.m_OtherActionsCallbackInterface.OnScroll;
                 @Scroll.performed -= m_Wrapper.m_OtherActionsCallbackInterface.OnScroll;
                 @Scroll.canceled -= m_Wrapper.m_OtherActionsCallbackInterface.OnScroll;
+                @Controls.started -= m_Wrapper.m_OtherActionsCallbackInterface.OnControls;
+                @Controls.performed -= m_Wrapper.m_OtherActionsCallbackInterface.OnControls;
+                @Controls.canceled -= m_Wrapper.m_OtherActionsCallbackInterface.OnControls;
             }
             m_Wrapper.m_OtherActionsCallbackInterface = instance;
             if (instance != null)
@@ -622,6 +648,9 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
                 @Scroll.started += instance.OnScroll;
                 @Scroll.performed += instance.OnScroll;
                 @Scroll.canceled += instance.OnScroll;
+                @Controls.started += instance.OnControls;
+                @Controls.performed += instance.OnControls;
+                @Controls.canceled += instance.OnControls;
             }
         }
     }
@@ -647,5 +676,6 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
         void OnMouseDelta(InputAction.CallbackContext context);
         void OnLeftClick(InputAction.CallbackContext context);
         void OnScroll(InputAction.CallbackContext context);
+        void OnControls(InputAction.CallbackContext context);
     }
 }

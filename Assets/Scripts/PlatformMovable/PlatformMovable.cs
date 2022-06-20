@@ -88,10 +88,7 @@ public class PlatformMovable : MonoBehaviour {
                 other.attachedRigidbody.velocity = new Vector3( platformRb.velocity.x,
                                                                 other.attachedRigidbody.velocity.y,
                                                                 platformRb.velocity.z);
-            } else {
-                other.transform.parent = platformRb.transform;
             }
-
         }
 
     }

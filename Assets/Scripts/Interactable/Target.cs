@@ -18,7 +18,6 @@ public class Target : AInteractable
         if (delayAfterDisabledCounter > 0) {
             delayAfterDisabledCounter -= Time.deltaTime;
         } else {
-            Debug.Log("Disabling target");
             launchEndActions();
             hasInteracted = false;
         }

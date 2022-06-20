@@ -76,6 +76,9 @@ public class GlobalProvider : MonoBehaviour
     public InputAction menu;
     [HideInInspector]
     public InputAction retry;
+
+    [HideInInspector]
+    public InputAction controls;
     private Dictionary<Inputs, InputAction> inputsPlayerMapAction;
 
     void Awake()
@@ -123,6 +126,13 @@ public class GlobalProvider : MonoBehaviour
 
         _inputs.Other.Retry.Enable();
         retry = _inputs.Other.Retry;
+
+        _inputs.Other.Controls.Enable();
+        controls = _inputs.Other.Controls;
+
+        _inputs.Other.Menu.Enable();
+        menu = _inputs.Other.Menu;
+
 
     }
 

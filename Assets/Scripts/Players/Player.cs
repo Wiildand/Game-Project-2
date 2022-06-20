@@ -29,6 +29,16 @@ public class Player : MonoBehaviour
     private Vector3 _goalVelocity;
     private Vector3 _unitGoalDir;
     private Collider _interactableCollider;
+
+    public Collider interactable
+    {
+        get
+        {
+            return _interactableCollider;
+        }
+    }
+
+
     private bool _isInteracting = false;
     private Vector3 _positionToLookAt;
 

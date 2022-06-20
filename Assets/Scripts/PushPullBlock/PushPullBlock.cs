@@ -9,13 +9,14 @@ public class PushPullBlock : MonoBehaviour
     private TeleportableEvent _teleportable;
     private Player _player;
 
+    Vector3 _currentDirection;
     private float minDistance;
 
     private void Start() {
         _teleportable = GetComponent<TeleportableEvent>();
         _teleportable.onTeleported += OnTeleported;
         _rb = GetComponent<Rigidbody>();
-        minDistance = _rb.transform.localScale.y * 1.75f;
+        minDistance = _rb.transform.localScale.y * 1.25f;
     }
 
     private void OnTeleported() {
@@ -35,23 +36,30 @@ public class PushPullBlock : MonoBehaviour
 
         _rb.useGravity = false;
 
-        _rb.transform.position = player.transform.position + 
-                                new Vector3(directionNormalized.x, 0, directionNormalized.z) * 
-                                (offsetDiagonal + offsetPerpendicular + minDistance);
+        Vector3 direction = new Vector3(directionNormalized.x, 0, directionNormalized.z) * 
+                                (offsetDiagonal + offsetPerpendicular);
 
+        _rb.transform.position = player.transform.position + direction;
 
-        _rb.transform.parent = player.transform;
+        _currentDirection = direction;
+
         _player = player;
+    }
 
+    public void MoveInFrontOfPlayer() {
+        _rb.transform.position = _player.transform.position + _currentDirection;
     }
 
     private void Update() {
+        if (_player != null) {
+            MoveInFrontOfPlayer();
+        }
     }
 
     public void StopCarry(Player player)
     {
-        _rb.transform.parent = transform;
         _rb.useGravity = true;
+        _currentDirection = Vector3.zero;
 
         _player = null;
         _rb.AddForce(player._rb.velocity, ForceMode.VelocityChange);

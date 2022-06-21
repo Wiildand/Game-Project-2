@@ -173,9 +173,10 @@ public class PlayerManager : MonoBehaviour
         var contextValue = context.ReadValue<Vector2>();
         if (!_cam)
             return;
+
+        // raycast to get the mouse position on the world  and make the player look at it
         Ray ray = _cam.ScreenPointToRay(contextValue);
         RaycastHit hit;
-
         if (Physics.Raycast(ray, out hit, 100)) {
             foreach (Player player in _players) {
                 player.UpdateMousePosition(hit.point);
